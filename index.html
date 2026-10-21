@@ -1,182 +1,495 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resoluta AGI + Resoluta Finance | Gestão Inteligente</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome para Ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#3a0b17">
+  <meta name="description" content="Resoluta AGI + Resoluta Finance — plataforma de gestão financeira, precificação por markup, fluxo de caixa e planejamento para microempreendedores e pequenos negócios. São Luís, MA.">
+  <meta name="author" content="Resoluta AGI — Administração, Gestão e Inovação">
+  <meta property="og:title" content="Resoluta AGI + Resoluta Finance">
+  <meta property="og:description" content="Entenda seus números. Tome melhores decisões.">
+  <meta property="og:type" content="website">
+  <title>Resoluta AGI + Resoluta Finance | Gestão Inteligente para o seu Negócio</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/icons/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
 
-    <!-- CABEÇALHO / NAVEGAÇÃO -->
-    <header class="header">
-        <div class="container nav-container">
-            <div class="logo">
-                <span class="logo-text">RESOLUTA <span class="highlight">AGI</span></span>
-            </div>
-            <nav class="nav-menu">
-                <a href="#inicio">Início</a>
-                <a href="#sobre">Quem Somos</a>
-                <a href="#ferramentas">Calculadora Markup</a>
-                <a href="#planos">Planos</a>
-                <a href="#contato">Contato</a>
-            </nav>
-            <div class="nav-actions">
-                <button class="btn-login" onclick="abrirModal('loginModal')"><i class="fa-solid fa-user"></i> Entrar</button>
-            </div>
-        </div>
-    </header>
+  <!-- ===================== HEADER ===================== -->
+  <header class="header" id="topo">
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="Resoluta AGI — página inicial">
+        <img class="brand-logo" src="assets/logo-resoluta.png" alt="Logo Resoluta AGI — Administração, Gestão e Inovação">
+      </a>
 
-    <!-- SEÇÃO INÍCIO / HERO -->
-    <section id="inicio" class="hero">
-        <div class="container hero-content">
-            <span class="badge-slogan">Administração, Gestão e Inovação — São Luís, MA</span>
-            <h1>Entenda seus números.<br>Tome melhores decisões.</h1>
-            <p>Simplifique o controle financeiro, domine a precificação por markup e conduza seu pequeno negócio ao crescimento sustentável com a Resoluta Finance.</p>
-            <div class="hero-buttons">
-                <a href="#ferramentas" class="btn btn-primary">Testar Calculadora Grátis</a>
-                <a href="#sobre" class="btn btn-secondary">Conhecer a Equipe</a>
-            </div>
+      <nav class="nav-links" id="navLinks" aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#sobre">Quem Somos</a>
+        <a href="#ferramentas">Ferramentas</a>
+        <a href="#calculadora">Calculadora</a>
+        <a href="#planos">Planos</a>
+        <a href="#contato">Contato</a>
+        <a href="aprenda.html">Aprenda</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-light btn-sm" type="button" data-open-auth="login">
+          <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Entrar
+        </button>
+        <button class="btn btn-primary btn-sm" type="button" data-open-auth="register">
+          <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Criar conta
+        </button>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="navLinks">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <span class="hero-badge"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Administração, Gestão e Inovação — São Luís, MA</span>
+          <h1>Entenda seus números.<br><span class="gold">Tome melhores decisões.</span></h1>
+          <p class="hero-lead">
+            A <strong>Resoluta Finance</strong> reúne precificação por markup, fluxo de caixa,
+            contas a pagar e receber, diagnóstico, metas e educação financeira em uma experiência
+            simples — feita para microempreendedores, autônomos e pequenos negócios crescerem com clareza.
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-primary btn-lg" href="#calculadora"><i class="fa-solid fa-calculator" aria-hidden="true"></i> Testar calculadora grátis</a>
+            <a class="btn btn-light btn-lg" href="#sobre"><i class="fa-solid fa-people-group" aria-hidden="true"></i> Conhecer a equipe</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat"><strong>15</strong><span>ferramentas de gestão</span></div>
+            <div class="hero-stat"><strong>5</strong><span>módulos educativos</span></div>
+            <div class="hero-stat"><strong>100%</strong><span>acessível e responsivo</span></div>
+          </div>
         </div>
+
+        <aside class="hero-card" aria-label="Exemplo de precificação por markup">
+          <h3><i class="fa-solid fa-tags" aria-hidden="true"></i> Exemplo de precificação</h3>
+          <div class="mini-row"><span>Custo direto unitário</span><b>R$ 12,00</b></div>
+          <div class="mini-row"><span>Despesas variáveis (8%)</span><b>R$ 1,60</b></div>
+          <div class="mini-row"><span>Despesas fixas (12%)</span><b>R$ 2,40</b></div>
+          <div class="mini-row"><span>Margem desejada (20%)</span><b>R$ 4,00</b></div>
+          <div class="mini-total"><span>Preço sugerido</span><b>R$ 20,00</b></div>
+          <p style="margin:14px 0 0;font-size:.78rem;color:#dcc9c3;">
+            Markup divisor 0,60 · multiplicador 1,67 · lucro líquido estimado por unidade R$ 4,00.
+          </p>
+        </aside>
+      </div>
     </section>
 
-    <!-- SEÇÃO QUEM SOMOS E EQUIPE -->
-    <section id="sobre" class="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>Quem Somos</h2>
-                <p>Nossa história, missão e o time por trás da inovação em São Luís</p>
-            </div>
-            <div class="about-grid">
-                <div class="about-text">
-                    <h3>Inovação e Gestão para Microempreendedores</h3>
-                    <p>A <strong>Resoluta AGI</strong> nasceu em São Luís–Maranhão com um propósito claro: ajudar microempreendedores, autônomos e pequenos negócios a compreenderem seus números e estruturarem sua gestão financeira com autonomia e clareza.</p>
-                    <p>Desenvolvido no contexto do curso de Assistente Administrativo do SENAC, nosso projeto une o rigor técnico administrativo à facilidade tecnológica da plataforma <strong>Resoluta Finance</strong>.</p>
-                </div>
-                <div class="about-image-card">
-                    <img src="Screenshot 2026-10-18 at 16-47-58 (7) Instagram.jpg" alt="Equipe Resoluta AGI e Alunos do SENAC em São Luís" class="team-photo">
-                    <span class="photo-caption">Equipe do Projeto Resoluta AGI &bull; Turma SENAC São Luís (MA)</span>
-                </div>
-            </div>
+    <!-- ===================== QUEM SOMOS ===================== -->
+    <section class="section" id="sobre">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Quem somos</span>
+          <h2>Uma microempresa maranhense com propósito claro</h2>
+          <p>Nascemos em São Luís–MA para ajudar quem empreende a compreender os números e decidir com segurança.</p>
         </div>
+
+        <div class="about-grid">
+          <div class="about-copy reveal">
+            <h3>Inovação e gestão para microempreendedores</h3>
+            <p>
+              A <strong>Resoluta AGI</strong> é uma microempresa de Administração, Gestão e Inovação.
+              Muitos empreendedores começam com dedicação e boas ideias, mas enfrentam dificuldades para
+              calcular preços de venda, controlar despesas, organizar o fluxo de caixa e compreender se
+              realmente estão obtendo lucro. Foi pensando nesse desafio que criamos a Resoluta Finance.
+            </p>
+            <p>
+              Nosso diferencial é unir <strong>tecnologia, simplicidade e orientação prática</strong>,
+              ajudando o empreendedor a entender seus resultados e tomar decisões mais estratégicas.
+            </p>
+            <ul class="value-list">
+              <li><i class="fa-solid fa-bullseye" aria-hidden="true"></i><span><strong>Propósito:</strong> ajudar microempreendedores a compreender números, organizar finanças e precificar com precisão.</span></li>
+              <li><i class="fa-solid fa-compass" aria-hidden="true"></i><span><strong>Missão:</strong> oferecer ferramentas e orientações acessíveis que simplifiquem a gestão financeira.</span></li>
+              <li><i class="fa-solid fa-eye" aria-hidden="true"></i><span><strong>Visão:</strong> proporcionar autonomia, clareza financeira e capacidade de planejamento.</span></li>
+              <li><i class="fa-solid fa-handshake-angle" aria-hidden="true"></i><span><strong>Valores:</strong> clareza, inovação responsável, organização, acessibilidade, segurança e compromisso com o empreendedor.</span></li>
+            </ul>
+          </div>
+
+          <figure class="photo-frame reveal" style="margin:0;">
+            <span class="about-badge">Equipe Resoluta AGI</span>
+            <img src="assets/equipe-resoluta.png" alt="Equipe e desenvolvedores da Resoluta AGI em São Luís do Maranhão">
+            <figcaption>Equipe e desenvolvedores da Resoluta AGI · São Luís (MA)</figcaption>
+          </figure>
+        </div>
+      </div>
     </section>
 
-    <!-- FERRAMENTA PRINCIPAL: CALCULADORA DE MARKUP -->
-    <section id="ferramentas" class="calculator-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Calculadora de Precificação por Markup</h2>
-                <p>Descubra o preço de venda ideal do seu produto ou serviço com precisão cirúrgica.</p>
-            </div>
-            <div class="calc-card">
-                <form id="markupForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="nomeProduto">Nome do Produto / Serviço</label>
-                            <input type="text" id="nomeProduto" placeholder="Ex: Doce Artesanal / Consultoria" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="custoDireto">Custo Direto Unitário (R$)</label>
-                            <input type="number" step="0.01" id="custoDireto" placeholder="0.00" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="despesasVar">Despesas Variáveis (%)</label>
-                            <input type="number" step="0.1" id="despesasVar" placeholder="Ex: 5 (Impostos/Taxas)" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="despesasFixas">Despesas Fixas Rateadas (%)</label>
-                            <input type="number" step="0.1" id="despesasFixas" placeholder="Ex: 15" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="margemLucro">Margem de Lucro Desejada (%)</label>
-                            <input type="number" step="0.1" id="margemLucro" placeholder="Ex: 20" required>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-primary btn-full" onclick="calcularMarkup()">Calcular Preço de Venda</button>
-                </form>
-
-                <!-- RESULTADOS DA CALCULADORA -->
-                <div id="calcResultado" class="calc-results hidden">
-                    <h3>Resultados da Precificação</h3>
-                    <div class="results-grid">
-                        <div class="result-box">
-                            <span>Preço de Venda Sugerido</span>
-                            <h4 id="resPreçoVenda">R$ 0,00</h4>
-                        </div>
-                        <div class="result-box">
-                            <span>Markup Divisor</span>
-                            <h4 id="resMarkupDivisor">0,00</h4>
-                        </div>
-                        <div class="result-box">
-                            <span>Markup Multiplicador</span>
-                            <h4 id="resMarkupMult">0,00</h4>
-                        </div>
-                        <div class="result-box">
-                            <span>Lucro Líquido Estimado</span>
-                            <h4 id="resLucroEstimado">R$ 0,00</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- ===================== FERRAMENTAS ===================== -->
+    <section class="section section-alt" id="ferramentas">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Resoluta Finance</span>
+          <h2>Tudo o que o seu negócio precisa em um só lugar</h2>
+          <p>Quinze ferramentas integradas de precificação, controle, análise e planejamento financeiro.</p>
         </div>
+        <div class="tools-grid" id="toolsGrid">
+          <!-- preenchido via JS -->
+        </div>
+      </div>
     </section>
 
-    <!-- PLANOS E ASSINATURAS -->
-    <section id="planos" class="plans-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Nossos Planos</h2>
-                <p>Escolha o nível ideal de maturidade para impulsionar o seu negócio.</p>
-            </div>
-            <div class="plans-grid">
-                <div class="plan-card">
-                    <h3>Plano Free</h3>
-                    <div class="price">R$ 0<span>/mês</span></div>
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Calculadora de Markup Básica</li>
-                        <li><i class="fa-solid fa-check"></i> Fluxo de Caixa Simples</li>
-                        <li><i class="fa-solid fa-check"></i> Diagnóstico Financeiro</li>
-                    </ul>
-                    <button class="btn btn-secondary btn-full">Começar Grátis</button>
-                </div>
-                <div class="plan-card featured">
-                    <span class="badge-featured">Mais Popular</span>
-                    <h3>Plano Pro PF</h3>
-                    <div class="price">R$ 19,90<span>/mês</span></div>
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Tudo do Plano Free</li>
-                        <li><i class="fa-solid fa-check"></i> Markup Avançado & Relatórios</li>
-                        <li><i class="fa-solid fa-check"></i> Metas e Planejamento</li>
-                    </ul>
-                    <button class="btn btn-primary btn-full">Assinar Pro PF</button>
-                </div>
-                <div class="plan-card">
-                    <h3>Plano Pro PJ</h3>
-                    <div class="price">R$ 29,90<span>/mês</span></div>
-                    <ul>
-                        <li><i class="fa-solid fa-check"></i> Tudo do Pro PF</li>
-                        <li><i class="fa-solid fa-check"></i> Ponto de Equilíbrio & Capital de Giro</li>
-                        <li><i class="fa-solid fa-check"></i> Contas a Pagar e Receber</li>
-                    </ul>
-                    <button class="btn btn-secondary btn-full">Assinar Pro PJ</button>
-                </div>
-            </div>
+    <!-- ===================== CALCULADORA ===================== -->
+    <section class="section" id="calculadora">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Ferramenta principal</span>
+          <h2>Calculadora de Precificação por Markup</h2>
+          <p>Descubra o preço de venda ideal do seu produto ou serviço com precisão — e entenda cada número.</p>
         </div>
+
+        <div class="calc-shell reveal">
+          <div class="calc-head">
+            <i class="fa-solid fa-calculator" aria-hidden="true"></i>
+            <div>
+              <h3>Calculadora de Markup</h3>
+              <p>Informe os valores e veja o preço sugerido, o markup e o lucro estimado.</p>
+            </div>
+          </div>
+          <div class="calc-body">
+            <form id="markupForm" novalidate>
+              <div class="form-grid">
+                <div class="field">
+                  <label for="nomeProduto">Nome do produto ou serviço</label>
+                  <input type="text" id="nomeProduto" placeholder="Ex.: Doce artesanal / Consultoria" autocomplete="off">
+                </div>
+                <div class="field">
+                  <label for="custoDireto">Custo direto unitário (R$)</label>
+                  <div class="input-prefix"><span>R$</span><input type="number" id="custoDireto" min="0" step="0.01" placeholder="0,00" inputmode="decimal"></div>
+                </div>
+                <div class="field">
+                  <label for="despesasVar">Despesas variáveis (%)</label>
+                  <input type="number" id="despesasVar" min="0" max="100" step="0.1" placeholder="Ex.: 8 (impostos, taxas, comissões)" inputmode="decimal">
+                  <span class="hint">Impostos, taxas de cartão, comissões.</span>
+                </div>
+                <div class="field">
+                  <label for="despesasFixas">Despesas fixas rateadas (%)</label>
+                  <input type="number" id="despesasFixas" min="0" max="100" step="0.1" placeholder="Ex.: 12" inputmode="decimal">
+                  <span class="hint">Aluguel, internet, contador rateados por venda.</span>
+                </div>
+                <div class="field">
+                  <label for="margemLucro">Margem de lucro desejada (%)</label>
+                  <input type="number" id="margemLucro" min="0" max="100" step="0.1" placeholder="Ex.: 20" inputmode="decimal">
+                </div>
+                <div class="field">
+                  <label for="quantidade">Quantidade vendida / estimada</label>
+                  <input type="number" id="quantidade" min="1" step="1" value="1" inputmode="numeric">
+                </div>
+                <div class="field">
+                  <label for="precoPraticado">Preço praticado atual (R$) <span class="hint">opcional</span></label>
+                  <div class="input-prefix"><span>R$</span><input type="number" id="precoPraticado" min="0" step="0.01" placeholder="0,00" inputmode="decimal"></div>
+                </div>
+              </div>
+
+              <div id="calcError" class="alert alert-error" role="alert" hidden>
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <div><strong>Revise os valores.</strong><span id="calcErrorMsg"></span></div>
+              </div>
+
+              <div class="calc-actions">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-equals" aria-hidden="true"></i> Calcular preço de venda</button>
+                <button type="button" class="btn btn-ghost" id="calcExample"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> Ver exemplo</button>
+                <button type="button" class="btn btn-ghost" id="calcReset"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Limpar</button>
+                <button type="button" class="btn btn-secondary" id="calcSave"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Salvar no meu painel</button>
+              </div>
+            </form>
+
+            <div class="result-panel" id="calcResultado" hidden>
+              <h3 style="color:var(--burgundy);">Resultado da precificação</h3>
+              <div class="result-grid">
+                <div class="result-box highlight"><span>Preço de venda sugerido</span><b id="resPreco">R$ 0,00</b><small id="resPrecoNota"></small></div>
+                <div class="result-box"><span>Markup divisor</span><b id="resDivisor">0,0000</b><small>1 − (variáveis + fixas + margem)</small></div>
+                <div class="result-box"><span>Markup multiplicador</span><b id="resMult">0,0000</b><small>1 ÷ markup divisor</small></div>
+                <div class="result-box"><span>Lucro líquido estimado</span><b id="resLucro">R$ 0,00</b><small>por unidade vendida</small></div>
+                <div class="result-box"><span>Faturamento total</span><b id="resFat">R$ 0,00</b><small id="resFatNota"></small></div>
+                <div class="result-box"><span>Custo total</span><b id="resCusto">R$ 0,00</b><small>custo direto × quantidade</small></div>
+                <div class="result-box"><span>Despesas operacionais</span><b id="resDesp">R$ 0,00</b><small>variáveis + fixas</small></div>
+                <div class="result-box"><span>Margem resultante</span><b id="resMargem">0,0%</b><small>lucro ÷ faturamento</small></div>
+              </div>
+              <div class="alert alert-info" style="margin-top:18px;">
+                <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                <div>
+                  <strong>Como ler este resultado</strong>
+                  O markup divisor mostra quanto do preço sobra para cobrir o custo. O multiplicador indica por quanto
+                  multiplicar o custo direto para chegar ao preço. Sempre confira seus percentuais reais antes de aplicar.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- RODAPÉ -->
-    <footer class="footer">
-        <div class="container footer-content">
-            <p>&copy; 2026 Resoluta AGI — Administração, Gestão e Inovação. São Luís, MA.</p>
-            <p class="slogan-footer">"Entenda seus números. Tome melhores decisões."</p>
+    <!-- ===================== PLANOS ===================== -->
+    <section class="section section-alt" id="planos">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">Planos</span>
+          <h2>Escolha o nível ideal para o seu momento</h2>
+          <p>Comece grátis e evolua conforme o seu negócio cresce. Cancele quando quiser.</p>
         </div>
-    </footer>
+        <div class="plans-grid" id="plansGrid">
+          <!-- preenchido via JS -->
+        </div>
+        <p class="center" style="margin-top:26px;font-size:.84rem;color:var(--text-soft);">
+          Os planos são apresentados para fins de demonstração acadêmica. Valores e recursos podem ser ajustados.
+        </p>
+      </div>
+    </section>
 
-    <!-- SCRIPT JS -->
-    <script src="script.js"></script>
+    <!-- ===================== CONTATO ===================== -->
+    <section class="section" id="contato">
+      <div class="container">
+        <div class="cta-band reveal">
+          <div>
+            <h2>Pronto para entender seus números?</h2>
+            <p>Crie sua conta gratuita, use a calculadora de markup e organize a gestão financeira do seu negócio hoje mesmo.</p>
+            <div class="hero-cta" style="margin-top:24px;">
+              <button class="btn btn-primary btn-lg" type="button" data-open-auth="register"><i class="fa-solid fa-rocket" aria-hidden="true"></i> Criar conta gratuita</button>
+              <a class="btn btn-light btn-lg" href="app.html"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> Acessar o painel</a>
+            </div>
+          </div>
+          <div class="cta-contact">
+            <a href="https://instagram.com/resoluta.agi" target="_blank" rel="noopener"><i class="fa-brands fa-instagram" aria-hidden="true"></i> @resoluta.agi</a>
+            <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> São Luís, Maranhão — DDD 98</span>
+            <span><i class="fa-solid fa-building" aria-hidden="true"></i> Resoluta AGI — Administração, Gestão e Inovação</span>
+            <span><i class="fa-solid fa-quote-left" aria-hidden="true"></i> "Entenda seus números. Tome melhores decisões."</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom:14px;">
+            <img class="brand-logo" src="assets/logo-resoluta.png" alt="Resoluta AGI" style="height:40px;">
+          </div>
+          <p>Microempresa de Administração, Gestão e Inovação. Soluções de gestão financeira para microempreendedores, autônomos e pequenos negócios.</p>
+          <p class="footer-slogan">"Entenda seus números. Tome melhores decisões."</p>
+        </div>
+        <div>
+          <h4>Plataforma</h4>
+          <ul>
+            <li><a href="#calculadora">Calculadora de Markup</a></li>
+            <li><a href="#ferramentas">Ferramentas</a></li>
+            <li><a href="#planos">Planos</a></li>
+            <li><a href="app.html">Painel financeiro</a></li>
+            <li><a href="aprenda.html">Aprenda</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Institucional</h4>
+          <ul>
+            <li><a href="#sobre">Quem somos</a></li>
+            <li><a href="#contato">Contato</a></li>
+            <li><a href="https://instagram.com/resoluta.agi" target="_blank" rel="noopener">Instagram</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal & Privacidade</h4>
+          <ul>
+            <li><a href="privacidade.html">Política de Privacidade (LGPD)</a></li>
+            <li><a href="termos.html">Termos de Uso</a></li>
+            <li><a href="#" data-open-cookies>Preferências de cookies</a></li>
+            <li><a href="#" data-a11y-open>Acessibilidade</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span id="anoAtual">2026</span> Resoluta AGI — Administração, Gestão e Inovação. São Luís, MA.</span>
+        <span>Feito com clareza, tecnologia e compromisso com o empreendedor.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== MODAIS DE AUTENTICAÇÃO ===================== -->
+  <div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 id="authTitle">Bem-vindo à Resoluta Finance</h3>
+          <p id="authSubtitle">Acesse sua conta para continuar.</p>
+        </div>
+        <button class="modal-close" type="button" data-close-modal aria-label="Fechar"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-tabs" role="tablist">
+          <button type="button" role="tab" id="tabLogin" aria-selected="true" data-auth-tab="login" class="active">Entrar</button>
+          <button type="button" role="tab" id="tabRegister" aria-selected="false" data-auth-tab="register">Criar conta</button>
+        </div>
+
+        <div id="authAlert" class="alert" role="alert" hidden></div>
+
+        <!-- LOGIN -->
+        <form class="form-stack" id="loginForm" novalidate>
+          <div class="field">
+            <label for="loginEmail">E-mail</label>
+            <input type="email" id="loginEmail" autocomplete="email" placeholder="seu@email.com" required>
+          </div>
+          <div class="field">
+            <label for="loginPassword">Senha</label>
+            <input type="password" id="loginPassword" autocomplete="current-password" placeholder="Sua senha" required>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+            <label class="checkbox-row" style="margin:0;"><input type="checkbox" id="loginRemember" checked> Lembrar de mim</label>
+            <button type="button" class="link-btn" data-auth-tab="forgot">Esqueci minha senha</button>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Entrar</button>
+        </form>
+
+        <!-- REGISTRO -->
+        <form class="form-stack" id="registerForm" novalidate hidden>
+          <div class="field">
+            <label for="regName">Nome completo</label>
+            <input type="text" id="regName" autocomplete="name" placeholder="Seu nome" required>
+          </div>
+          <div class="field">
+            <label for="regEmail">E-mail</label>
+            <input type="email" id="regEmail" autocomplete="email" placeholder="seu@email.com" required>
+          </div>
+          <div class="field">
+            <label for="regPassword">Senha</label>
+            <input type="password" id="regPassword" autocomplete="new-password" placeholder="Crie uma senha forte" required>
+            <div class="pw-meter" id="pwMeter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <span class="pw-label" id="pwLabel">Use ao menos 8 caracteres, com letras, números e símbolo.</span>
+          </div>
+          <div class="field">
+            <label for="regConfirm">Confirmar senha</label>
+            <input type="password" id="regConfirm" autocomplete="new-password" placeholder="Repita a senha" required>
+          </div>
+          <div class="field">
+            <label for="regProfile">Perfil</label>
+            <select id="regProfile">
+              <option value="pf">Pessoa Física / Autônomo</option>
+              <option value="pj">Pessoa Jurídica / MEI</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="regAnswer">Pergunta de segurança: <span class="hint">Qual é o nome do seu primeiro negócio ou projeto?</span></label>
+            <input type="text" id="regAnswer" autocomplete="off" placeholder="Sua resposta (usada para recuperar a senha)" required>
+          </div>
+          <label class="checkbox-row"><input type="checkbox" id="regTerms" required> Li e aceito os <a href="termos.html" target="_blank">Termos de Uso</a> e a <a href="privacidade.html" target="_blank">Política de Privacidade</a>.</label>
+          <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Criar minha conta</button>
+        </form>
+
+        <!-- RECUPERAR SENHA -->
+        <form class="form-stack" id="forgotForm" novalidate hidden>
+          <p style="font-size:.86rem;color:var(--text-soft);">Informe seu e-mail e sua pergunta de segurança para redefinir a senha.</p>
+          <div class="field">
+            <label for="forgotEmail">E-mail cadastrado</label>
+            <input type="email" id="forgotEmail" autocomplete="email" placeholder="seu@email.com" required>
+          </div>
+          <div class="field">
+            <label for="forgotAnswer">Resposta de segurança <span class="hint">(Qual é o nome do seu primeiro negócio ou projeto?)</span></label>
+            <input type="text" id="forgotAnswer" placeholder="Sua resposta" required>
+          </div>
+          <div class="field">
+            <label for="forgotNew">Nova senha</label>
+            <input type="password" id="forgotNew" autocomplete="new-password" placeholder="Nova senha" required>
+            <div class="pw-meter" id="pwMeter2" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-key" aria-hidden="true"></i> Redefinir senha</button>
+          <button type="button" class="link-btn" data-auth-tab="login" style="justify-self:center;">Voltar para o login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== BARRA DE ACESSIBILIDADE ===================== -->
+  <div class="a11y-bar no-print">
+    <div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="Opções de acessibilidade">
+      <h4><i class="fa-solid fa-universal-access" aria-hidden="true"></i> Acessibilidade</h4>
+      <div class="a11y-row">
+        <span>Tamanho da fonte</span>
+        <div class="seg" role="group" aria-label="Tamanho da fonte">
+          <button type="button" data-font="down" aria-label="Diminuir fonte">A−</button>
+          <button type="button" data-font="reset" aria-label="Fonte padrão">A</button>
+          <button type="button" data-font="up" aria-label="Aumentar fonte">A+</button>
+        </div>
+      </div>
+      <div class="a11y-row">
+        <span>Tema</span>
+        <div class="seg" role="group" aria-label="Tema de cores">
+          <button type="button" data-theme-btn="light" class="active" aria-label="Tema claro">Claro</button>
+          <button type="button" data-theme-btn="dark" aria-label="Tema escuro">Escuro</button>
+          <button type="button" data-theme-btn="contrast" aria-label="Alto contraste">Contraste</button>
+        </div>
+      </div>
+      <div class="a11y-row">
+        <span>Ler em voz alta</span>
+        <label class="switch"><input type="checkbox" id="ttsToggle" aria-label="Ativar leitura em voz alta"><span class="slider"></span></label>
+      </div>
+      <div class="a11y-row" id="ttsControls" hidden>
+        <span>Controles de leitura</span>
+        <div class="seg">
+          <button type="button" id="ttsPlay" aria-label="Reproduzir leitura"><i class="fa-solid fa-play" aria-hidden="true"></i></button>
+          <button type="button" id="ttsPause" aria-label="Pausar leitura"><i class="fa-solid fa-pause" aria-hidden="true"></i></button>
+          <button type="button" id="ttsStop" aria-label="Parar leitura"><i class="fa-solid fa-stop" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="a11y-row">
+        <span>Reduzir animações</span>
+        <label class="switch"><input type="checkbox" id="motionToggle" aria-label="Reduzir animações"><span class="slider"></span></label>
+      </div>
+    </div>
+    <button class="a11y-toggle" id="a11yToggle" type="button" aria-label="Abrir opções de acessibilidade" aria-expanded="false" aria-controls="a11yPanel">
+      <i class="fa-solid fa-universal-access" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <!-- ===================== COOKIE BANNER ===================== -->
+  <div class="cookie-banner no-print" id="cookieBanner" role="region" aria-label="Aviso de cookies">
+    <div class="container cookie-inner">
+      <p>
+        Usamos cookies e armazenamento local para manter você conectado, lembrar suas preferências e melhorar sua experiência.
+        Você pode aceitar todos ou apenas os essenciais. Saiba mais na nossa <a href="privacidade.html">Política de Privacidade</a>.
+      </p>
+      <div class="cookie-actions">
+        <button class="btn btn-ghost btn-sm" type="button" id="cookieEssential">Somente essenciais</button>
+        <button class="btn btn-primary btn-sm" type="button" id="cookieAccept">Aceitar todos</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== VLIBRAS ===================== -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+
+  <!-- ===================== SCRIPTS ===================== -->
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+  <script src="finance.js"></script>
+  <script src="store.js"></script>
+  <script src="auth.js"></script>
+  <script src="a11y.js"></script>
+  <script src="script.js"></script>
+  <script src="pwa.js"></script>
 </body>
 </html>
