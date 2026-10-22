@@ -22,7 +22,7 @@ var ASSETS = [
   './pwa.js',
   './manifest.webmanifest',
   './assets/logo-resoluta.png',
-  './assets/equipe-resoluta.png',
+  './assets/equipe-resoluta-senac.jpg',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
   './assets/icons/favicon-32.png'
