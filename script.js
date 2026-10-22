@@ -292,7 +292,7 @@
         document.getElementById('forgotAnswer').value,
         document.getElementById('forgotNew').value
       );
-      if (res.ok) { showAlert('Senha redefinida com sucesso! Você já pode entrar.', 'success'); setTimeout(function () { switchTab('login'); }, 1200); }
+      if (res.ok) { showAlert('Enviamos um link para redefinir a senha. Confira seu e-mail.', 'success'); setTimeout(function () { switchTab('login'); }, 1200); }
       else { showAlert(res.error); }
     });
   }
@@ -377,8 +377,9 @@
 
     var ano = document.getElementById('anoAtual'); if (ano) ano.textContent = new Date().getFullYear();
 
-    // Se já logado, ajusta botões do header
-    if (window.ResolutaAuth && window.ResolutaAuth.isLoggedIn()) {
+    // Atualiza o header somente apos o Supabase validar a sessao.
+    if (window.ResolutaAuth) window.ResolutaAuth.ready().then(function () {
+    if (window.ResolutaAuth.isLoggedIn()) {
       var u = window.ResolutaAuth.currentUser();
       document.querySelectorAll('[data-open-auth]').forEach(function (b) { b.style.display = 'none'; });
       var nav = document.querySelector('.nav-actions');
@@ -389,5 +390,6 @@
         nav.insertBefore(a, nav.firstChild);
       }
     }
+    }).catch(function (error) { console.warn('Sessão Supabase indisponível:', error); });
   });
 })();
