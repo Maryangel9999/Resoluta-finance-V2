@@ -7,7 +7,7 @@
   var SUPABASE_URL = '';
   var SUPABASE_PUBLISHABLE_KEY = '';
   // Versao fixa para evitar atualizacoes inesperadas da biblioteca em producao.
-  var SDK_URL = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0';
+  var SDK_URL = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.0/dist/umd/supabase.js';
 
   var clientPromise = null;
   var remember = true;
