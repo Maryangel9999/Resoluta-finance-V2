@@ -220,6 +220,9 @@
     user: publicUser(mappedUser)
   };
 }
+
+  /* ---------- Login ---------- */
+  async function login(email, password, remember) {
     email = normalizeEmail(email);
     password = String(password || '');
 
