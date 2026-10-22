@@ -163,45 +163,73 @@
   function onChange(cb) { listeners.push(cb); return function () { listeners = listeners.filter(function (l) { return l !== cb; }); }; }
 
   /* ---------- Registro ---------- */
-  async function register(data) {
-    var name = sanitize(data.name).trim();
-    var email = normalizeEmail(data.email);
-    var password = String(data.password || '');
-    var profile = data.profile === 'pj' ? 'pj' : 'pf';
-    var answer = sanitize(data.securityAnswer || '').trim();
+ async function register(data) {
+  var name = sanitize(data.name).trim();
+  var email = normalizeEmail(data.email);
+  var password = String(data.password || '');
+  var profile = data.profile === 'pj' ? 'pj' : 'pf';
 
-    if (name.length < 3) return { ok: false, error: 'Informe seu nome completo.' };
-    if (!isValidEmail(email)) return { ok: false, error: 'Informe um e-mail válido.' };
-    if (passwordStrength(password).score < 2) return { ok: false, error: 'Senha muito fraca. Use ao menos 8 caracteres com letras e números.' };
-    if (data.password !== data.confirm) return { ok: false, error: 'As senhas não conferem.' };
-    if (data.acceptTerms === false) return { ok: false, error: 'É necessário aceitar os Termos de Uso e a Política de Privacidade.' };
+  if (name.length < 3)
+    return { ok: false, error: 'Informe seu nome completo.' };
 
-    var users = getUsers();
-    if (users.some(function (u) { return u.email === email; })) {
-      return { ok: false, error: 'Já existe uma conta com este e-mail.' };
-    }
+  if (!isValidEmail(email))
+    return { ok: false, error: 'Informe um e-mail válido.' };
 
-    var salt = randomSalt(16);
-    var hash = await hashPassword(password, salt);
-    var ansSalt = randomSalt(12);
-    var ansHash = answer ? await hashPassword(answer.toLowerCase(), ansSalt) : null;
-
-    var user = {
-      id: 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
-      name: name, email: email, profile: profile,
-      salt: salt, hash: hash,
-      ansSalt: ansSalt, ansHash: ansHash,
-      createdAt: Date.now()
+  if (passwordStrength(password).score < 2)
+    return {
+      ok: false,
+      error: 'Senha muito fraca. Use ao menos 8 caracteres com letras e números.'
     };
-    users.push(user);
-    saveUsers(users);
-    clearLock(email);
-    setSession(user, true);
-    return { ok: true, user: publicUser(user) };
+
+  if (data.password !== data.confirm)
+    return { ok: false, error: 'As senhas não conferem.' };
+
+  if (data.acceptTerms === false)
+    return {
+      ok: false,
+      error: 'É necessário aceitar os Termos de Uso e a Política de Privacidade.'
+    };
+
+  if (!global.supabaseClient) {
+    return {
+      ok: false,
+      error: 'Cliente Supabase não inicializado.'
+    };
   }
 
-  /* ---------- Login ---------- */
-  async function login(email, password, remember) {
+  var response = await global.supabaseClient.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      data: {
+        name: name,
+        profile: profile
+      }
+    }
+  });
+
+  if (response.error) {
+    return {
+      ok: false,
+      error: response.error.message
+    };
+  }
+
+  var userObj = response.data.user;
+
+  var mappedUser = {
+    id: userObj.id,
+    email: userObj.email,
+    name: name,
+    profile: profile,
+    createdAt: Date.now()
+  };
+
+  return {
+    ok: true,
+    user: publicUser(mappedUser)
+  };
+}
     email = normalizeEmail(email);
     password = String(password || '');
 
