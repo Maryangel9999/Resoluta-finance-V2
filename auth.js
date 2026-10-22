@@ -168,19 +168,15 @@
   var email = normalizeEmail(data.email);
   var password = String(data.password || '');
   var profile = data.profile === 'pj' ? 'pj' : 'pf';
-
   if (name.length < 3)
     return { ok: false, error: 'Informe seu nome completo.' };
-
   if (!isValidEmail(email))
     return { ok: false, error: 'Informe um e-mail válido.' };
-
   if (passwordStrength(password).score < 2)
     return {
       ok: false,
       error: 'Senha muito fraca. Use ao menos 8 caracteres com letras e números.'
     };
-
   if (data.password !== data.confirm)
     return { ok: false, error: 'As senhas não conferem.' };
 
@@ -189,14 +185,12 @@
       ok: false,
       error: 'É necessário aceitar os Termos de Uso e a Política de Privacidade.'
     };
-
   if (!global.supabaseClient) {
     return {
       ok: false,
       error: 'Cliente Supabase não inicializado.'
     };
   }
-
   var response = await global.supabaseClient.auth.signUp({
     email: email,
     password: password,
@@ -207,16 +201,13 @@
       }
     }
   });
-
   if (response.error) {
     return {
       ok: false,
       error: response.error.message
     };
   }
-
   var userObj = response.data.user;
-
   var mappedUser = {
     id: userObj.id,
     email: userObj.email,
@@ -224,7 +215,6 @@
     profile: profile,
     createdAt: Date.now()
   };
-
   return {
     ok: true,
     user: publicUser(mappedUser)
@@ -238,7 +228,6 @@
       var mins = Math.ceil(remaining / 60000);
       return { ok: false, locked: true, error: 'Conta temporariamente bloqueada por segurança. Tente novamente em ' + mins + ' minuto(s).' };
     }
-
     var users = getUsers();
     var user = users.filter(function (u) { return u.email === email; })[0];
 
@@ -246,7 +235,6 @@
       // Não revela se o e-mail existe (boa prática)
       return { ok: false, error: 'E-mail ou senha incorretos.' };
     }
-
     var valid = await verifyPassword(password, user.salt, user.hash);
     if (!valid) {
       var lock = getLock(email) || { attempts: 0 };
@@ -261,12 +249,10 @@
       var left = MAX_ATTEMPTS - lock.attempts;
       return { ok: false, error: 'E-mail ou senha incorretos. Tentativas restantes: ' + left + '.' };
     }
-
     clearLock(email);
     setSession(user, remember !== false);
     return { ok: true, user: publicUser(user) };
   }
-
   /* ---------- Recuperação de senha ---------- */
   async function resetPassword(email, answer, newPassword) {
     email = normalizeEmail(email);
@@ -275,17 +261,14 @@
     if (!user) return { ok: false, error: 'Não encontramos uma conta com este e-mail.' };
     if (!user.ansHash) return { ok: false, error: 'Esta conta não possui pergunta de segurança configurada.' };
     if (passwordStrength(newPassword).score < 2) return { ok: false, error: 'Nova senha muito fraca.' };
-
     var ok = await verifyPassword(sanitize(answer).trim().toLowerCase(), user.ansSalt, user.ansHash);
     if (!ok) return { ok: false, error: 'Resposta de segurança incorreta.' };
-
     user.salt = randomSalt(16);
     user.hash = await hashPassword(newPassword, user.salt);
     saveUsers(users);
     clearLock(email);
     return { ok: true };
   }
-
   /* ---------- Isolamento de dados por usuário ---------- */
   function dataKey(userId) { return 'resoluta.data.' + userId + '.v1'; }
   function loadData() {
@@ -304,7 +287,6 @@
     if (!u) return;
     try { global.localStorage.removeItem(dataKey(u.id)); } catch (e) {}
   }
-
   /* ---------- Export ---------- */
   global.ResolutaAuth = {
     register: register,
