@@ -2,7 +2,7 @@
    Resoluta Finance — Service Worker (PWA)
    Cache do app shell + estratégia network-first para navegação.
    ========================================================================== */
-var CACHE = 'resoluta-v6';
+var CACHE = 'resoluta-v7';
 var ASSETS = [
   './',
   './index.html',
