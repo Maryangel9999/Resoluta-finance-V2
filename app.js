@@ -997,8 +997,10 @@
   }
   function doLogout() {
     if (!confirm('Deseja sair da sua conta?')) return;
-    A.logout();
-    location.href = 'index.html';
+    A.logout().then(function (result) {
+      if (result.ok) location.href = 'index.html';
+      else toast(result.error || 'Não foi possível encerrar a sessão.');
+    });
   }
 
   /* ======================================================================
@@ -1025,7 +1027,9 @@
   /* ======================================================================
      INIT
      ====================================================================== */
-  function init() {
+  async function init() {
+    try { await A.ready(); }
+    catch (error) { console.error('Falha na inicialização da autenticação:', error); location.replace('index.html'); return; }
     if (!A.isLoggedIn()) { location.replace('index.html'); return; }
     S.load();
     if (window.ResolutaA11y) window.ResolutaA11y.init();
