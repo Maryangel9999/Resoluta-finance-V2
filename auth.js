@@ -231,15 +231,16 @@
       var mins = Math.ceil(remaining / 60000);
       return { ok: false, locked: true, error: 'Conta temporariamente bloqueada por segurança. Tente novamente em ' + mins + ' minuto(s).' };
     }
-    var users = getUsers();
-    var user = users.filter(function (u) { return u.email === email; })[0];
-
-    if (!user) {
-      // Não revela se o e-mail existe (boa prática)
-      return { ok: false, error: 'E-mail ou senha incorretos.' };
+    if (!global.supabaseClient) {
+      return { ok: false, error: 'Cliente Supabase não inicializado.' };
     }
-    var valid = await verifyPassword(password, user.salt, user.hash);
-    if (!valid) {
+
+    var response = await global.supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+    if (response.error || !response.data || !response.data.user) {
       var lock = getLock(email) || { attempts: 0 };
       lock.attempts = (lock.attempts || 0) + 1;
       if (lock.attempts >= MAX_ATTEMPTS) {
@@ -252,6 +253,30 @@
       var left = MAX_ATTEMPTS - lock.attempts;
       return { ok: false, error: 'E-mail ou senha incorretos. Tentativas restantes: ' + left + '.' };
     }
+
+    // Sincroniza o usuario do Supabase com o store local para manter
+    // currentUser() / isLoggedIn() compativeis (nao alterados).
+    var sbUser = response.data.user;
+    var meta = sbUser.user_metadata || {};
+    var users = getUsers();
+    var user = users.filter(function (u) { return u.id === sbUser.id; })[0];
+    if (!user) {
+      user = {
+        id: sbUser.id,
+        email: normalizeEmail(sbUser.email || email),
+        name: sanitize(meta.name || String(sbUser.email || email).split('@')[0]),
+        profile: meta.profile === 'pj' ? 'pj' : 'pf',
+        createdAt: Date.parse(sbUser.created_at) || Date.now()
+      };
+      users.push(user);
+      saveUsers(users);
+    } else {
+      user.email = normalizeEmail(sbUser.email || user.email);
+      if (meta.name) user.name = sanitize(meta.name);
+      if (meta.profile) user.profile = meta.profile === 'pj' ? 'pj' : 'pf';
+      saveUsers(users);
+    }
+
     clearLock(email);
     setSession(user, remember !== false);
     return { ok: true, user: publicUser(user) };
