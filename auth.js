@@ -1,298 +1,138 @@
-/* ==========================================================================
-   Resoluta Finance — Módulo de Autenticação e Sessão
-   --------------------------------------------------------------------------
-   Observação de segurança: em produção, o hashing de senhas (bcrypt) e a
-   validação devem ocorrer no BACK-END. Nesta versão estática (GitHub Pages),
-   usamos Web Crypto (PBKDF2-SHA256, 150.000 iterações + salt aleatório) como
-   equivalente seguro no cliente, com a mesma interface para migração futura.
-   ========================================================================== */
-(function (global) {
-  'use strict';
-
-  var USERS_KEY = 'resoluta.users.v1';
-  var SESSION_KEY = 'resoluta.session.v1';
-  var LOCK_KEY = 'resoluta.lock.v1';
-  var MAX_ATTEMPTS = 3;
-  var LOCK_MS = 5 * 60 * 1000; // 5 minutos
-
-  /* ---------- Utilidades criptográficas ---------- */
-  function toHex(buf) {
-    return Array.prototype.map.call(new Uint8Array(buf), function (b) {
-      return ('00' + b.toString(16)).slice(-2);
-    }).join('');
-  }
-
-  function randomSalt(len) {
-    var a = new Uint8Array(len || 16);
-    if (global.crypto && global.crypto.getRandomValues) global.crypto.getRandomValues(a);
-    else for (var i = 0; i < a.length; i++) a[i] = Math.floor(Math.random() * 256);
-    return toHex(a);
-  }
-
-  // Fallback determinístico caso crypto.subtle não esteja disponível (ex.: file://)
-  function fallbackHash(str) {
-    var h1 = 0x811c9dc5, h2 = 0x1000193;
-    for (var i = 0; i < str.length; i++) {
-      h1 ^= str.charCodeAt(i); h1 = (h1 * 16777619) >>> 0;
-      h2 = ((h2 << 5) - h2 + str.charCodeAt(i)) >>> 0;
-    }
-    return 'fb$' + h1.toString(16) + h2.toString(16);
-  }
-
-  async function hashPassword(password, salt) {
-    if (!(global.crypto && global.crypto.subtle)) return fallbackHash(salt + '::' + password);
-    var enc = new TextEncoder();
-    var keyMaterial = await global.crypto.subtle.importKey(
-      'raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveBits']
-    );
-    var bits = await global.crypto.subtle.deriveBits(
-      { name: 'PBKDF2', salt: enc.encode(salt), iterations: 150000, hash: 'SHA-256' },
-      keyMaterial, 256
-    );
-    return 'pbkdf2$150000$' + toHex(bits);
-  }
-
-  async function verifyPassword(password, salt, stored) {
-    var computed = await hashPassword(password, salt);
-    return timingSafeEqual(computed, stored);
-  }
-
-  function timingSafeEqual(a, b) {
-    if (typeof a !== 'string' || typeof b !== 'string') return false;
-    if (a.length !== b.length) return false;
-    var diff = 0;
-    for (var i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-    return diff === 0;
-  }
-
-  /* ---------- Armazenamento ---------- */
-  function readJSON(key, fallback) {
-    try {
-      var raw = global.localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    } catch (e) { return fallback; }
-  }
-  function writeJSON(key, value) {
-    try { global.localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
-  }
-
-  function getUsers() { return readJSON(USERS_KEY, []); }
-  function saveUsers(users) { writeJSON(USERS_KEY, users); }
-  function normalizeEmail(e) { return String(e || '').trim().toLowerCase(); }
-
-  /* ---------- Sanitização (anti-XSS) ---------- */
-  function sanitize(str) {
-    return String(str == null ? '' : str)
-      .replace(/[<>]/g, function (c) { return c === '<' ? '<' : '>'; })
-      .replace(/[\u0000-\u001f]/g, '');
-  }
-  function isValidEmail(e) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e || '').trim());
-  }
-
-  /* ---------- Força de senha ---------- */
-  function passwordStrength(pw) {
-    pw = String(pw || '');
-    var score = 0;
-    if (pw.length >= 8) score++;
-    if (pw.length >= 12) score++;
-    if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
-    if (/\d/.test(pw)) score++;
-    if (/[^A-Za-z0-9]/.test(pw)) score++;
-    if (/(.)\1{2,}/.test(pw)) score = Math.max(0, score - 1);
-    if (/^(123456|senha|password|qwerty|abc123)/i.test(pw)) score = 0;
-    score = Math.max(0, Math.min(4, score));
-    var labels = ['Muito fraca', 'Fraca', 'Razoável', 'Boa', 'Forte'];
-    return { score: score, label: labels[score], percent: score * 25 };
-  }
-
-  /* ---------- Bloqueio por tentativas ---------- */
-  function getLock(email) {
-    var locks = readJSON(LOCK_KEY, {});
-    return locks[normalizeEmail(email)] || null;
-  }
-  function setLock(email, data) {
-    var locks = readJSON(LOCK_KEY, {});
-    locks[normalizeEmail(email)] = data;
-    writeJSON(LOCK_KEY, locks);
-  }
-  function clearLock(email) {
-    var locks = readJSON(LOCK_KEY, {});
-    delete locks[normalizeEmail(email)];
-    writeJSON(LOCK_KEY, locks);
-  }
-  function lockRemaining(email) {
-    var lock = getLock(email);
-    if (!lock || !lock.until) return 0;
-    return Math.max(0, lock.until - Date.now());
-  }
-
-  /* ---------- Sessão ---------- */
-  function setSession(user, remember) {
-    var session = { id: user.id, email: user.email, name: user.name, profile: user.profile, since: Date.now() };
-    try {
-      if (remember) global.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-      else global.sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    } catch (e) {}
-    emit(user);
-  }
-  function getSession() {
-    var s = null;
-    try { s = JSON.parse(global.localStorage.getItem(SESSION_KEY) || 'null'); } catch (e) {}
-    if (!s) { try { s = JSON.parse(global.sessionStorage.getItem(SESSION_KEY) || 'null'); } catch (e) {} }
-    return s;
-  }
-  function currentUser() {
-    var s = getSession();
-    if (!s) return null;
-    var user = getUsers().filter(function (u) { return u.id === s.id; })[0];
-    return user ? publicUser(user) : null;
-  }
-  function publicUser(u) {
-    return { id: u.id, name: u.name, email: u.email, profile: u.profile, createdAt: u.createdAt };
-  }
-  function isLoggedIn() { return !!currentUser(); }
-  function logout() {
-    try { global.localStorage.removeItem(SESSION_KEY); global.sessionStorage.removeItem(SESSION_KEY); } catch (e) {}
-    emit(null);
-  }
-
-  /* ---------- Eventos ---------- */
-  var listeners = [];
-  function emit(user) { listeners.forEach(function (cb) { try { cb(user); } catch (e) {} }); }
-  function onChange(cb) { listeners.push(cb); return function () { listeners = listeners.filter(function (l) { return l !== cb; }); }; }
-
-  /* ---------- Registro ---------- */
-  async function register(data) {
-    var name = sanitize(data.name).trim();
-    var email = normalizeEmail(data.email);
-    var password = String(data.password || '');
-    var profile = data.profile === 'pj' ? 'pj' : 'pf';
-    var answer = sanitize(data.securityAnswer || '').trim();
-
-    if (name.length < 3) return { ok: false, error: 'Informe seu nome completo.' };
-    if (!isValidEmail(email)) return { ok: false, error: 'Informe um e-mail válido.' };
-    if (passwordStrength(password).score < 2) return { ok: false, error: 'Senha muito fraca. Use ao menos 8 caracteres com letras e números.' };
-    if (data.password !== data.confirm) return { ok: false, error: 'As senhas não conferem.' };
-    if (data.acceptTerms === false) return { ok: false, error: 'É necessário aceitar os Termos de Uso e a Política de Privacidade.' };
-
-    var users = getUsers();
-    if (users.some(function (u) { return u.email === email; })) {
-      return { ok: false, error: 'Já existe uma conta com este e-mail.' };
-    }
-
-    var salt = randomSalt(16);
-    var hash = await hashPassword(password, salt);
-    var ansSalt = randomSalt(12);
-    var ansHash = answer ? await hashPassword(answer.toLowerCase(), ansSalt) : null;
-
-    var user = {
-      id: 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
-      name: name, email: email, profile: profile,
-      salt: salt, hash: hash,
-      ansSalt: ansSalt, ansHash: ansHash,
-      createdAt: Date.now()
-    };
-    users.push(user);
-    saveUsers(users);
-    clearLock(email);
-    setSession(user, true);
-    return { ok: true, user: publicUser(user) };
-  }
-
-  /* ---------- Login ---------- */
-  async function login(email, password, remember) {
-    email = normalizeEmail(email);
-    password = String(password || '');
-
-    var remaining = lockRemaining(email);
-    if (remaining > 0) {
-      var mins = Math.ceil(remaining / 60000);
-      return { ok: false, locked: true, error: 'Conta temporariamente bloqueada por segurança. Tente novamente em ' + mins + ' minuto(s).' };
-    }
-
-    var users = getUsers();
-    var user = users.filter(function (u) { return u.email === email; })[0];
-
-    if (!user) {
-      // Não revela se o e-mail existe (boa prática)
-      return { ok: false, error: 'E-mail ou senha incorretos.' };
-    }
-
-    var valid = await verifyPassword(password, user.salt, user.hash);
-    if (!valid) {
-      var lock = getLock(email) || { attempts: 0 };
-      lock.attempts = (lock.attempts || 0) + 1;
-      if (lock.attempts >= MAX_ATTEMPTS) {
-        lock.until = Date.now() + LOCK_MS;
-        lock.attempts = 0;
-        setLock(email, lock);
-        return { ok: false, locked: true, error: 'Você atingiu 3 tentativas. Conta bloqueada por 5 minutos.' };
-      }
-      setLock(email, lock);
-      var left = MAX_ATTEMPTS - lock.attempts;
-      return { ok: false, error: 'E-mail ou senha incorretos. Tentativas restantes: ' + left + '.' };
-    }
-
-    clearLock(email);
-    setSession(user, remember !== false);
-    return { ok: true, user: publicUser(user) };
-  }
-
-  /* ---------- Recuperação de senha ---------- */
-  async function resetPassword(email, answer, newPassword) {
-    email = normalizeEmail(email);
-    var users = getUsers();
-    var user = users.filter(function (u) { return u.email === email; })[0];
-    if (!user) return { ok: false, error: 'Não encontramos uma conta com este e-mail.' };
-    if (!user.ansHash) return { ok: false, error: 'Esta conta não possui pergunta de segurança configurada.' };
-    if (passwordStrength(newPassword).score < 2) return { ok: false, error: 'Nova senha muito fraca.' };
-
-    var ok = await verifyPassword(sanitize(answer).trim().toLowerCase(), user.ansSalt, user.ansHash);
-    if (!ok) return { ok: false, error: 'Resposta de segurança incorreta.' };
-
-    user.salt = randomSalt(16);
-    user.hash = await hashPassword(newPassword, user.salt);
-    saveUsers(users);
-    clearLock(email);
-    return { ok: true };
-  }
-
-  /* ---------- Isolamento de dados por usuário ---------- */
-  function dataKey(userId) { return 'resoluta.data.' + userId + '.v1'; }
-  function loadData() {
-    var u = currentUser();
-    if (!u) return null;
-    return readJSON(dataKey(u.id), null);
-  }
-  function saveData(data) {
-    var u = currentUser();
-    if (!u) return false;
-    writeJSON(dataKey(u.id), data);
-    return true;
-  }
-  function clearData() {
-    var u = currentUser();
-    if (!u) return;
-    try { global.localStorage.removeItem(dataKey(u.id)); } catch (e) {}
-  }
-
-  /* ---------- Export ---------- */
-  global.ResolutaAuth = {
-    register: register,
-    login: login,
-    logout: logout,
-    resetPassword: resetPassword,
-    currentUser: currentUser,
-    isLoggedIn: isLoggedIn,
-    onChange: onChange,
-    passwordStrength: passwordStrength,
-    lockRemaining: lockRemaining,
-    loadData: loadData,
-    saveData: saveData,
-    clearData: clearData,
-    sanitize: sanitize,
-    isValidEmail: isValidEmail,
-    MAX_ATTEMPTS: MAX_ATTEMPTS
-  };
-})(typeof window !== 'undefined' ? window : this);
+/* Resoluta Finance — adaptador de autenticacao Supabase Auth.
+   Interface publica legada preservada; identidades e dados nao sao mais
+   autenticados ou persistidos nas chaves antigas do browser. */
+(function(global) {
+'use strict';
+var MAX_ATTEMPTS=3, LOCK_MS=300000;
+var client=null, user=null, profileData=null, listeners=[], initPromise=null, dataSaveQueue=Promise.resolve(), statusError=null;
+var locks={};
+function clean(x) {return String(x==null?'':x).replace(/[<>]/g,function(c){return c==='<'?'&lt;':'&gt;';}).replace(/[\u0000-\u001f]/g,'');}
+function email(x){return String(x||'').trim().toLowerCase();}
+function validEmail(x){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(x||'').trim());}
+function strength(p){p=String(p||'');var n=0;if(p.length>=8)n++;if(p.length>=12)n++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))n++;if(/\d/.test(p))n++;if(/[^A-Za-z0-9]/.test(p))n++;if(/(.)\1{2,}/.test(p))n=Math.max(0,n-1);if(/^(123456|senha|password|qwerty|abc123)/i.test(p))n=0;n=Math.max(0,Math.min(4,n));return {score:n,label:['Muito fraca','Fraca','Razoável','Boa','Forte'][n],percent:n*25};}
+function normalize(u){if(!u)return null;return {id:u.id,name:clean(u.user_metadata&&u.user_metadata.name||u.email.split('@')[0]),email:u.email,profile:u.user_metadata&&u.user_metadata.profile==='pj'?'pj':'pf',createdAt:Date.parse(u.created_at)||Date.now()};}
+function emit(){listeners.slice().forEach(function(fn){try{fn(user);}catch(e){}});}
+function onChange(fn){listeners.push(fn);return function(){listeners=listeners.filter(function(v){return v!==fn;});};}
+function scriptClient(){
+ return new Promise(function(resolve,reject){
+   if(global.ResolutaSupabase)return resolve(global.ResolutaSupabase);
+   var script=document.createElement('script');script.src='supabase.js';script.async=true;
+   script.onload=function(){global.ResolutaSupabase?resolve(global.ResolutaSupabase):reject(new Error('Cliente Supabase indisponível.'));};
+   script.onerror=function(){reject(new Error('Não foi possível carregar supabase.js.'));};
+   document.head.appendChild(script);
+ });
+}
+function readRemote(){
+ if(!user){profileData=null;return Promise.resolve(null);}
+ return client.from('User-Data').select('dados_json').eq('user_id',user.id).maybeSingle().then(function(result){
+   if(result.error)throw result.error;
+   profileData=result.data?result.data.dados_json:null;
+   return profileData;
+ });
+}
+function init(){
+ if(initPromise)return initPromise;
+ initPromise=scriptClient().then(function(config){return config.getClient();}).then(function(sb){
+   client=sb;
+   client.auth.onAuthStateChange(function(event,session){
+     // Nao executar chamadas de Supabase neste callback, evitando deadlocks.
+     if(event==='SIGNED_OUT'){user=null;profileData=null;emit();}
+   });
+   return client.auth.getSession();
+ }).then(function(result){
+   if(result.error)throw result.error;
+   if(!result.data.session){user=null;profileData=null;emit();return null;}
+   return client.auth.getUser().then(function(result){
+     if(result.error)throw result.error;
+     user=normalize(result.data.user);
+     return readRemote().then(function(){emit();return user;});
+   });
+ }).catch(function(err){statusError=err;initPromise=null;throw err;});
+ return initPromise;
+}
+function failure(e){return {ok:false,error:e&&e.message?e.message:'Não foi possível concluir a operação.'};}
+function currentUser(){return user;}
+function isLoggedIn(){return !!user;}
+function lockRemaining(e){var x=locks[email(e)];return x?Math.max(0,x.until-Date.now()):0;}
+async function register(data){
+ try {
+   await init();
+   var name=clean(data.name).trim(),mail=email(data.email),password=String(data.password||'');
+   if(name.length<3)return {ok:false,error:'Informe seu nome completo.'};
+   if(!validEmail(mail))return {ok:false,error:'Informe um e-mail válido.'};
+   if(strength(password).score<2)return {ok:false,error:'Senha muito fraca. Use ao menos 8 caracteres com letras e números.'};
+   if(password!==data.confirm)return {ok:false,error:'As senhas não conferem.'};
+   if(data.acceptTerms===false)return {ok:false,error:'É necessário aceitar os Termos de Uso e a Política de Privacidade.'};
+   var result=await client.auth.signUp({email:mail,password:password,options:{data:{name:name,profile:data.profile==='pj'?'pj':'pf'}}});
+   if(result.error)throw result.error;
+   if(!result.data.session)return {ok:false,pendingConfirmation:true,error:'Cadastro solicitado. Confirme seu e-mail antes de entrar.'};
+   user=normalize(result.data.user);profileData=null;emit();
+   return {ok:true,user:user};
+ }catch(e){return failure(e);}
+}
+async function login(mail,password,remember){
+ mail=email(mail);
+ var remain=lockRemaining(mail);
+ if(remain)return {ok:false,locked:true,error:'Conta temporariamente bloqueada por segurança. Tente novamente em '+Math.ceil(remain/60000)+' minuto(s).'};
+ try {
+   await init();
+   global.ResolutaSupabase.setRemember(remember!==false);
+   var result=await client.auth.signInWithPassword({email:mail,password:String(password||'')});
+   if(result.error) {
+     var l=locks[mail]||{attempts:0,until:0};l.attempts++;
+     if(l.attempts>=MAX_ATTEMPTS){locks[mail]={attempts:0,until:Date.now()+LOCK_MS};return {ok:false,locked:true,error:'Você atingiu 3 tentativas. Conta bloqueada por 5 minutos.'};}
+     locks[mail]=l;
+     return {ok:false,error:'E-mail ou senha incorretos. Tentativas restantes: '+(MAX_ATTEMPTS-l.attempts)+'.'};
+   }
+   delete locks[mail];
+   user=normalize(result.data.user);
+   await readRemote();emit();
+   return {ok:true,user:user};
+ }catch(e){return failure(e);}
+}
+async function logout(){
+ try {
+   await init();
+   await dataSaveQueue;
+   var result=await client.auth.signOut();
+   if(result.error)throw result.error;
+   user=null;profileData=null;emit();
+   return {ok:true};
+ }catch(e){return failure(e);}
+}
+async function resetPassword(mail,_answer,_newPassword){
+ try {
+   await init();
+   if(!validEmail(email(mail)))return {ok:false,error:'Informe um e-mail válido.'};
+   var result=await client.auth.resetPasswordForEmail(email(mail),{redirectTo:new URL('index.html',location.href).href});
+   if(result.error)throw result.error;
+   return {ok:true,pendingEmail:true};
+ }catch(e){return failure(e);}
+}
+function loadData(){return profileData;}
+function saveData(value){
+ if(!user||!client)return false;
+ var owner=user.id,payload=JSON.parse(JSON.stringify(value));
+ profileData=payload;
+ dataSaveQueue=dataSaveQueue.catch(function(){}).then(async function(){
+   var response=await client.from('User-Data').select('id').eq('user_id',owner).maybeSingle();
+   if(response.error)throw response.error;
+   var result;
+   if(response.data)result=await client.from('User-Data').update({dados_json:payload,updated_at:new Date().toISOString()}).eq('user_id',owner);
+   else result=await client.from('User-Data').insert({user_id:owner,dados_json:payload});
+   if(result.error)throw result.error;
+ }).catch(function(e){statusError=e;global.dispatchEvent(new CustomEvent('resoluta:data-error',{detail:{message:e.message}}));throw e;});
+ return true;
+}
+function clearData(){return saveData(null);}
+function getSession(){return init().then(function(){return client.auth.getSession();});}
+function getUser(){return init().then(function(){return client.auth.getUser();});}
+global.ResolutaAuth={
+  ready:init,register:register,login:login,logout:logout,resetPassword:resetPassword,
+  currentUser:currentUser,isLoggedIn:isLoggedIn,onChange:onChange,
+  passwordStrength:strength,lockRemaining:lockRemaining,loadData:loadData,
+  saveData:saveData,clearData:clearData,sanitize:clean,isValidEmail:validEmail,
+  getSession:getSession,getUser:getUser,lastError:function(){return statusError;},
+  whenSaved:function(){return dataSaveQueue;},MAX_ATTEMPTS:MAX_ATTEMPTS
+};
+})(typeof window!=='undefined'?window:this);
