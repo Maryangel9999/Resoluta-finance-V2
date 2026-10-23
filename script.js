@@ -284,17 +284,30 @@
     });
 
     // Recuperar senha
-    var forgotForm = document.getElementById('forgotForm');
-    if (forgotForm) forgotForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-      var res = await window.ResolutaAuth.resetPassword(
-        document.getElementById('forgotEmail').value,
-        document.getElementById('forgotAnswer').value,
-        document.getElementById('forgotNew').value
-      );
-      if (res.ok) { showAlert('Senha redefinida com sucesso! Você já pode entrar.', 'success'); setTimeout(function () { switchTab('login'); }, 1200); }
-      else { showAlert(res.error); }
-    });
+var forgotForm = document.getElementById('forgotForm');
+
+if (forgotForm) forgotForm.addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  var res = await window.ResolutaAuth.resetPassword(
+    document.getElementById('forgotEmail').value
+  );
+
+  if (res.ok) {
+    showAlert(
+      'Verifique sua caixa de entrada para redefinir sua senha.',
+      'success'
+    );
+
+    setTimeout(function () {
+      switchTab('login');
+    }, 2000);
+
+  } else {
+    showAlert(res.error);
+  }
+});
+   
   }
 
   /* ---------- Cookies (LGPD) ---------- */
