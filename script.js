@@ -294,17 +294,14 @@ if (forgotForm) forgotForm.addEventListener('submit', async function (e) {
   );
 
   if (res.ok) {
-    showAlert(
-      'Verifique sua caixa de entrada para redefinir sua senha.',
-      'success'
-    );
+    alert('Verifique sua caixa de entrada para redefinir sua senha.');
 
     setTimeout(function () {
       switchTab('login');
     }, 2000);
 
   } else {
-    showAlert(res.error);
+    alert(res.error);
   }
 });
    
