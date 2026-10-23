@@ -282,21 +282,25 @@
     return { ok: true, user: publicUser(user) };
   }
   /* ---------- Recuperação de senha ---------- */
-  async function resetPassword(email, answer, newPassword) {
-    email = normalizeEmail(email);
-    var users = getUsers();
-    var user = users.filter(function (u) { return u.email === email; })[0];
-    if (!user) return { ok: false, error: 'Não encontramos uma conta com este e-mail.' };
-    if (!user.ansHash) return { ok: false, error: 'Esta conta não possui pergunta de segurança configurada.' };
-    if (passwordStrength(newPassword).score < 2) return { ok: false, error: 'Nova senha muito fraca.' };
-    var ok = await verifyPassword(sanitize(answer).trim().toLowerCase(), user.ansSalt, user.ansHash);
-    if (!ok) return { ok: false, error: 'Resposta de segurança incorreta.' };
-    user.salt = randomSalt(16);
-    user.hash = await hashPassword(newPassword, user.salt);
-    saveUsers(users);
-    clearLock(email);
-    return { ok: true };
+async function resetPassword(email) {
+  email = normalizeEmail(email);
+
+  if (!isValidEmail(email)) {
+    return { ok: false, error: 'Informe um e-mail válido.' };
   }
+
+  if (!global.supabaseClient) {
+    return { ok: false, error: 'Cliente Supabase não inicializado.' };
+  }
+
+  var response = await global.supabaseClient.auth.resetPasswordForEmail(email);
+
+  if (response.error) {
+    return { ok: false, error: response.error.message };
+  }
+
+  return { ok: true };
+}
   /* ---------- Isolamento de dados por usuário ---------- */
   function dataKey(userId) { return 'resoluta.data.' + userId + '.v1'; }
   function loadData() {
