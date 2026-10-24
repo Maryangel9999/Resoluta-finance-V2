@@ -1717,3 +1717,215 @@ body.cookie-open .a11y-bar { bottom: 132px; }
   color: #000000 !important;
   border: 2px solid #ffd700 !important;
 }
+
+/* ==========================================================================
+   V4 — PAINEL DE ACESSIBILIDADE CORPORATIVO
+   Refinamento: largura menor, cantos arredondados, sombra suave,
+   animações fluidas e integração com a identidade vinho/dourado.
+   ========================================================================== */
+
+/* ---- Botão flutuante: ícone universal, elegante e discreto ---- */
+.a11y-toggle {
+  width: 58px;
+  height: 58px;
+  font-size: 1.45rem;
+  border: 1.5px solid rgba(212, 175, 55, .55);
+  background:
+    linear-gradient(150deg, #4a0e1d 0%, #33081a 55%, #1f040e 100%);
+  color: #e8c766;
+  box-shadow:
+    0 10px 28px rgba(28, 4, 11, .34),
+    0 0 0 1px rgba(255, 255, 255, .04) inset,
+    inset 0 1px 0 rgba(255, 255, 255, .12);
+  transition:
+    transform .32s cubic-bezier(.22, 1.2, .36, 1),
+    box-shadow .32s ease,
+    border-color .32s ease,
+    color .32s ease;
+}
+.a11y-toggle::before {
+  inset: -7px;
+  border: 1px solid rgba(212, 175, 55, .22);
+  transition: opacity .34s ease, transform .34s cubic-bezier(.22, 1.2, .36, 1);
+}
+.a11y-toggle:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212, 175, 55, .9);
+  color: #f7e2a3;
+  box-shadow:
+    0 14px 34px rgba(28, 4, 11, .40),
+    0 0 0 1px rgba(255, 255, 255, .06) inset,
+    0 0 18px rgba(212, 175, 55, .26),
+    inset 0 1px 0 rgba(255, 255, 255, .16);
+}
+.a11y-toggle[aria-expanded="true"] {
+  background: linear-gradient(150deg, #5d1226 0%, #3d0a1e 58%, #25060f 100%);
+  border-color: rgba(212, 175, 55, .95);
+  color: #ffd700;
+}
+
+/* ---- Painel: bloco integrado, não solto ---- */
+.a11y-panel {
+  width: 316px;
+  max-width: calc(100vw - 40px);
+  border-radius: 18px;
+  border: 1px solid rgba(212, 175, 55, .30);
+  background: var(--surface);
+  box-shadow:
+    0 28px 64px -12px rgba(28, 4, 11, .38),
+    0 8px 20px -8px rgba(28, 4, 11, .22),
+    0 0 0 1px rgba(255, 255, 255, .03) inset;
+  transform: translateY(10px) scale(.97);
+  transition:
+    opacity .26s cubic-bezier(.4, 0, .2, 1),
+    transform .34s cubic-bezier(.22, 1.15, .36, 1),
+    visibility .26s linear;
+}
+
+/* Filete dourado no topo — amarra o painel à marca */
+.a11y-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold) 18%, var(--gold) 82%, transparent);
+  opacity: .85;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ---- Cabeçalho enxuto e corporativo ---- */
+.a11y-panel h4 {
+  padding: 15px 46px 15px 16px;
+  font-size: .88rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  gap: 9px;
+  background: linear-gradient(115deg, #33081a 0%, var(--burgundy-dark) 62%, #4a0e1d 100%);
+  color: #fff;
+  border-bottom: 1px solid rgba(212, 175, 55, .30);
+}
+.a11y-panel h4 i {
+  font-size: .95rem;
+  color: var(--gold);
+}
+
+/* ---- Botão fechar discreto ---- */
+.a11y-close {
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  font-size: .72rem;
+  border: 1px solid rgba(212, 175, 55, .28);
+  background: rgba(255, 255, 255, .07);
+  color: rgba(255, 255, 255, .82);
+  transition: background .22s ease, color .22s ease, border-color .22s ease, transform .28s ease;
+}
+.a11y-close:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #33081a;
+  transform: rotate(90deg);
+}
+
+/* ---- Linhas compactas e alinhadas ---- */
+.a11y-row {
+  padding: 12px 16px;
+  gap: 12px;
+  font-size: .82rem;
+}
+.a11y-row + .a11y-row {
+  border-top: 1px solid var(--border);
+}
+.a11y-row > span {
+  font-weight: 600;
+  letter-spacing: -.005em;
+}
+
+/* ---- Controles segmentados ---- */
+.a11y-row .seg { gap: 4px; }
+.a11y-row .seg button {
+  min-width: 38px;
+  height: 32px;
+  padding: 0 7px;
+  font-size: .76rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition:
+    background .18s ease,
+    color .18s ease,
+    border-color .18s ease,
+    transform .14s ease;
+}
+.a11y-row .seg button.active {
+  box-shadow: 0 1px 3px rgba(58, 11, 23, .18);
+}
+
+/* ---- Interruptor mais esbelto ---- */
+.switch { width: 44px; height: 25px; }
+.switch .slider::before { width: 19px; height: 19px; }
+.switch input:checked + .slider::before { transform: translateX(19px); }
+
+/* ---- Responsivo: mantém a largura enxuta ---- */
+@media (max-width: 900px) {
+  .a11y-panel { width: 300px; }
+}
+@media (max-width: 620px) {
+  .a11y-toggle { width: 54px; height: 54px; font-size: 1.35rem; }
+  .a11y-panel {
+    left: 10px;
+    right: 10px;
+    bottom: 78px;
+    width: auto;
+    border-radius: 16px;
+    transform: translateY(14px) scale(.98);
+  }
+  .a11y-panel.open { transform: none; }
+  .a11y-row { padding: 11px 14px; font-size: .8rem; }
+}
+@media (max-width: 380px) {
+  .a11y-toggle { width: 50px; height: 50px; font-size: 1.25rem; }
+}
+
+/* ---- Alto contraste: painel corporativo sem perder AAA ---- */
+[data-theme="contrast"] .a11y-panel {
+  border: 2px solid #ffd700 !important;
+  border-radius: 18px !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .a11y-panel::before {
+  height: 0;
+}
+[data-theme="contrast"] .a11y-toggle {
+  border: 2px solid #ffd700 !important;
+  border-radius: 50% !important;
+  background: #000000 !important;
+  color: #ffd700 !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .a11y-toggle::before { display: none; }
+[data-theme="contrast"] .a11y-toggle:hover,
+[data-theme="contrast"] .a11y-toggle[aria-expanded="true"] {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .a11y-panel h4 {
+  text-transform: uppercase;
+  border-bottom: 2px solid #ffd700 !important;
+}
+
+/* ---- Movimento reduzido respeitado ---- */
+[data-reduce-motion="true"] .a11y-panel,
+[data-reduce-motion="true"] .a11y-toggle,
+[data-reduce-motion="true"] .a11y-close {
+  transition-duration: .001ms !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .a11y-panel,
+  .a11y-toggle,
+  .a11y-close { transition-duration: .001ms !important; }
+}
