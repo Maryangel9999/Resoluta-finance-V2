@@ -192,6 +192,7 @@
   function hideAlert() { if (authAlert) authAlert.hidden = true; }
 
   function switchTab(tab) {
+     console.log('Trocando para:', tab);
     hideAlert();
     var forms = { login: 'loginForm', register: 'registerForm', forgot: 'forgotForm' };
     Object.keys(forms).forEach(function (k) {
