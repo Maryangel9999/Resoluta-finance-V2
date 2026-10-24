@@ -196,7 +196,11 @@
     hideAlert();
     var forms = { login: 'loginForm', register: 'registerForm', forgot: 'forgotForm' };
     Object.keys(forms).forEach(function (k) {
-      var f = document.getElementById(forms[k]); if (f) f.hidden = (k !== tab);
+      var f = document.getElementById(forms[k]); if (f) {
+    f.hidden = (k !== tab);
+    console.log(k, f.hidden);
+}
+
     });
     document.querySelectorAll('[data-auth-tab]').forEach(function (b) {
       var t = b.getAttribute('data-auth-tab');
