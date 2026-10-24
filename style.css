@@ -1929,3 +1929,45 @@ body.cookie-open .a11y-bar { bottom: 132px; }
   .a11y-toggle,
   .a11y-close { transition-duration: .001ms !important; }
 }
+
+/* ==========================================================================
+   V5 — GARANTIA DE ESTADO DO PAINEL (botão flutuante)
+   --------------------------------------------------------------------------
+   O painel de acessibilidade deve existir SOMENTE quando aberto.
+   Esta regra vence qualquer resquício de CSS antigo que tentasse exibir
+   o painel permanentemente ("bloco solto" sempre aberto).
+   Não usa display:none para preservar a animação de abrir/fechar.
+   ========================================================================== */
+.a11y-panel:not(.open) {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* O botão flutuante exibe APENAS o ícone de acessibilidade */
+.a11y-toggle {
+  padding: 0 !important;
+  text-indent: 0;
+  line-height: 1;
+}
+.a11y-toggle > i {
+  font-size: 1.35rem;
+  line-height: 1;
+  display: block;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   V5.1 — Badges com estilo INLINE (Aprenda / Privacidade / Termos)
+   Os badges destas páginas trazem background em style="" no HTML
+   (rgba(255,255,255,.14)). Estilo inline vence CSS comum, então só
+   !important sobrepõe. Sem isso: dourado sobre branco translúcido = 1.40:1.
+   -------------------------------------------------------------------------- */
+[data-theme="contrast"] .eyebrow,
+[data-theme="contrast"] .kicker,
+[data-theme="contrast"] .hero-badge {
+  background: #000000 !important;
+  background-image: none !important;
+  color: #ffd700 !important;
+  border: 2px solid #ffd700 !important;
+}

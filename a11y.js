@@ -150,9 +150,17 @@
     var toggle = document.getElementById('a11yToggle');
     var panel = document.getElementById('a11yPanel');
 
+    /* Estado inicial: painel SEMPRE fechado. Só o botão flutuante aparece. */
+    if (panel) {
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+    }
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+
     function openPanel() {
       if (!panel) return;
       panel.classList.add('open');
+      panel.setAttribute('aria-hidden', 'false');
       if (toggle) toggle.setAttribute('aria-expanded', 'true');
       var first = panel.querySelector('.a11y-close, button');
       if (first) first.focus({ preventScroll: true });
@@ -160,6 +168,7 @@
     function closePanel(restoreFocus) {
       if (!panel) return;
       panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
       if (toggle) {
         toggle.setAttribute('aria-expanded', 'false');
         if (restoreFocus) toggle.focus({ preventScroll: true });
