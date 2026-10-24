@@ -547,3 +547,503 @@ body.cookie-open .a11y-bar { bottom: 120px; }
   .header, .footer, .a11y-bar, .cookie-banner, .nav-toggle, .no-print { display: none !important; }
   body { background: #fff; color: #000; }
 }
+
+/* ==========================================================================
+   AJUSTES VISUAIS E DE ACESSIBILIDADE — RESOLUTA AGI
+   Escopo: logo, cabeçalho, tema alto contraste, botões e rodapé.
+   Nenhuma regra abaixo altera layout, seções, cards ou conteúdo.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. LOGO — nitidez, glow dourado discreto, sombra e área de destaque
+   -------------------------------------------------------------------------- */
+.header .brand {
+  position: relative;
+  isolation: isolate;
+  padding: 6px 14px 6px 10px;
+  border-radius: 14px;
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(212, 175, 55, .22), rgba(15, 3, 7, .78) 68%),
+    rgba(15, 3, 7, .58);
+  border: 1px solid rgba(212, 175, 55, .45);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, .45),
+    inset 0 1px 0 rgba(255, 255, 255, .10);
+  transition: var(--transition);
+}
+.header .brand::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 18px rgba(212, 175, 55, .22);
+}
+.header .brand:hover {
+  border-color: rgba(212, 175, 55, .75);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, .5),
+    0 0 22px rgba(212, 175, 55, .18),
+    inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+.header .brand-logo {
+  height: 56px;
+  width: auto;
+  max-width: none;
+  filter:
+    contrast(1.12) saturate(1.12) brightness(1.16)
+    drop-shadow(0 0 9px rgba(212, 175, 55, .50))
+    drop-shadow(0 6px 14px rgba(0, 0, 0, .58));
+}
+
+/* Rodapé — mesma área de destaque da marca */
+.footer .brand {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 14px;
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(212, 175, 55, .20), rgba(10, 2, 5, .82) 70%),
+    rgba(10, 2, 5, .6);
+  border: 1px solid rgba(212, 175, 55, .42);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, .45),
+    inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+.footer .brand-logo {
+  height: 52px !important;
+  width: auto;
+  max-width: none;
+  filter:
+    contrast(1.12) saturate(1.12) brightness(1.18)
+    drop-shadow(0 0 9px rgba(212, 175, 55, .48))
+    drop-shadow(0 6px 14px rgba(0, 0, 0, .58));
+}
+
+/* --------------------------------------------------------------------------
+   2. CABEÇALHO — fundo mais escuro atrás da logo e melhor contraste
+   -------------------------------------------------------------------------- */
+.header {
+  background:
+    radial-gradient(520px 140px at 8% 50%, rgba(0, 0, 0, .55), transparent 70%),
+    linear-gradient(120deg, #1c040b, var(--burgundy-dark) 58%, var(--burgundy));
+  border-bottom: 1px solid rgba(212, 175, 55, .38);
+}
+.header .nav-links a {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+}
+
+/* --------------------------------------------------------------------------
+   3. BOTÕES — responsivos, foco visível, hover/active consistentes
+   -------------------------------------------------------------------------- */
+.btn {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+}
+.btn:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+.btn:active { transform: translateY(1px) scale(.995); }
+.btn-sm { min-height: 38px; }
+.btn-lg { min-height: 52px; }
+
+@media (max-width: 980px) {
+  .nav { gap: 10px; }
+  .nav-actions { gap: 8px; }
+}
+@media (max-width: 620px) {
+  :root { --header-h: 70px; }
+  .header .brand { padding: 4px 8px; border-radius: 11px; }
+  .header .brand-logo { height: 44px; }
+  .nav-actions { gap: 6px; }
+  .nav-actions .btn-sm {
+    padding: 8px 10px;
+    font-size: .78rem;
+    gap: 6px;
+    min-height: 36px;
+  }
+  .nav-actions .btn-sm i { display: none; }
+  .nav-toggle { width: 42px; height: 42px; }
+  .footer .brand { padding: 6px 12px; }
+  .footer .brand-logo { height: 46px !important; }
+  .cookie-actions { width: 100%; }
+  .cookie-actions .btn { flex: 1 1 auto; }
+  #loginForm > div { flex-wrap: wrap; }
+}
+@media (max-width: 380px) {
+  .header .brand { padding: 3px 6px; }
+  .header .brand-logo { height: 38px; }
+  .nav-actions .btn-sm { padding: 7px 8px; font-size: .72rem; }
+  .nav-toggle { width: 38px; height: 38px; }
+}
+
+/* --------------------------------------------------------------------------
+   4. TEMA ALTO CONTRASTE — preto puro, branco puro e dourado (#FFD700)
+   Cobertura: menu, login/cadastro, hero, acessibilidade, rodapé, forms e cards.
+   -------------------------------------------------------------------------- */
+[data-theme="contrast"] { color-scheme: dark; }
+
+[data-theme="contrast"] body,
+[data-theme="contrast"] .section-alt,
+[data-theme="contrast"] .app-body,
+[data-theme="contrast"] .learn-body {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+[data-theme="contrast"] a { color: #ffd700; }
+[data-theme="contrast"] :focus-visible {
+  outline: 3px solid #ffd700 !important;
+  outline-offset: 3px;
+}
+
+/* Cabeçalho e menu */
+[data-theme="contrast"] .header {
+  background: #000000 !important;
+  border-bottom: 2px solid #ffd700 !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .header .brand,
+[data-theme="contrast"] .footer .brand {
+  background: #000000 !important;
+  border: 2px solid #ffd700 !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .header .brand::after { box-shadow: none; }
+[data-theme="contrast"] .header .brand-logo,
+[data-theme="contrast"] .footer .brand-logo {
+  filter:
+    contrast(1.2) saturate(1.12) brightness(1.26)
+    drop-shadow(0 0 8px rgba(255, 215, 0, .72))
+    drop-shadow(0 3px 8px rgba(0, 0, 0, .9)) !important;
+}
+[data-theme="contrast"] .nav-links a {
+  color: #ffffff !important;
+  border: 1px solid transparent;
+  text-shadow: none;
+}
+[data-theme="contrast"] .nav-links a:hover,
+[data-theme="contrast"] .nav-links a:focus-visible {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .nav-links a.active {
+  color: #ffd700 !important;
+  border-color: #ffd700;
+}
+[data-theme="contrast"] .nav-toggle {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+[data-theme="contrast"] .nav-toggle:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .brand-text strong,
+[data-theme="contrast"] .brand-text small { color: #ffffff !important; }
+[data-theme="contrast"] .brand-text strong span { color: #ffd700 !important; }
+
+/* Botões — nenhum pode desaparecer */
+[data-theme="contrast"] .btn {
+  border: 2px solid #ffffff !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .btn-primary {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .btn-primary:hover,
+[data-theme="contrast"] .btn-primary:focus-visible {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+}
+[data-theme="contrast"] .btn-light {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+[data-theme="contrast"] .btn-light:hover,
+[data-theme="contrast"] .btn-light:focus-visible {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .btn-ghost {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+[data-theme="contrast"] .btn-ghost:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .btn-secondary {
+  background: #000000 !important;
+  color: #ffd700 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .btn-secondary:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .btn[disabled] {
+  opacity: 1 !important;
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Hero e faixas escuras */
+[data-theme="contrast"] .hero,
+[data-theme="contrast"] .learn-hero,
+[data-theme="contrast"] .legal-hero {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-bottom: 2px solid #ffd700;
+}
+[data-theme="contrast"] .hero::after { display: none; }
+[data-theme="contrast"] .hero h1,
+[data-theme="contrast"] .hero-lead,
+[data-theme="contrast"] .hero-stat span,
+[data-theme="contrast"] .learn-lead,
+[data-theme="contrast"] .legal-hero p { color: #ffffff !important; }
+[data-theme="contrast"] .hero h1 .gold,
+[data-theme="contrast"] .hero-stat strong { color: #ffd700 !important; }
+[data-theme="contrast"] .hero-badge {
+  background: #000000 !important;
+  border: 2px solid #ffd700 !important;
+  color: #ffd700 !important;
+}
+[data-theme="contrast"] .hero-card {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+[data-theme="contrast"] .hero-card h3,
+[data-theme="contrast"] .mini-row b,
+[data-theme="contrast"] .mini-total span { color: #ffd700 !important; }
+[data-theme="contrast"] .mini-row { border-bottom-color: #ffffff; }
+[data-theme="contrast"] .mini-row span { color: #ffffff !important; }
+[data-theme="contrast"] .mini-total {
+  background: #000000 !important;
+  border: 2px solid #ffd700;
+}
+[data-theme="contrast"] .mini-total b { color: #ffd700 !important; }
+
+/* Títulos, textos auxiliares e etiquetas */
+[data-theme="contrast"] .eyebrow { color: #ffd700 !important; }
+[data-theme="contrast"] .section-head p,
+[data-theme="contrast"] .about-copy p,
+[data-theme="contrast"] .plan-desc,
+[data-theme="contrast"] .field .hint,
+[data-theme="contrast"] .footer p { color: #ffffff !important; }
+[data-theme="contrast"] .tool-tag {
+  background: #000000 !important;
+  color: #ffd700 !important;
+  border: 1px solid #ffd700;
+}
+[data-theme="contrast"] .about-copy h3,
+[data-theme="contrast"] .plan-card h3,
+[data-theme="contrast"] .modal-head h3,
+[data-theme="contrast"] .a11y-panel h4 { color: #ffd700 !important; }
+
+/* Cards, painéis e superfícies — bordas sempre visíveis */
+[data-theme="contrast"] .card,
+[data-theme="contrast"] .tool-card,
+[data-theme="contrast"] .plan-card,
+[data-theme="contrast"] .calc-shell,
+[data-theme="contrast"] .result-box,
+[data-theme="contrast"] .modal-card,
+[data-theme="contrast"] .a11y-panel,
+[data-theme="contrast"] .lesson,
+[data-theme="contrast"] .learn-quiz,
+[data-theme="contrast"] .learn-exercise,
+[data-theme="contrast"] .glossary-item,
+[data-theme="contrast"] .learn-nav-item,
+[data-theme="contrast"] .chat,
+[data-theme="contrast"] .legal-toc,
+[data-theme="contrast"] .legal-content {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .tool-card:hover,
+[data-theme="contrast"] .plan-card:hover,
+[data-theme="contrast"] .glossary-item:hover {
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .plan-card.featured { border-color: #ffd700 !important; }
+[data-theme="contrast"] .tool-ico {
+  background: #000000 !important;
+  border: 2px solid #ffd700;
+  color: #ffd700 !important;
+}
+[data-theme="contrast"] .result-box {
+  border-left: 5px solid #ffd700 !important;
+}
+[data-theme="contrast"] .result-box b { color: #ffd700 !important; }
+[data-theme="contrast"] .result-box span,
+[data-theme="contrast"] .result-box small { color: #ffffff !important; }
+
+/* Formulários, login e cadastro */
+[data-theme="contrast"] .field label,
+[data-theme="contrast"] .checkbox-row,
+[data-theme="contrast"] .pw-label,
+[data-theme="contrast"] .divider { color: #ffffff !important; }
+[data-theme="contrast"] .field input,
+[data-theme="contrast"] .field select,
+[data-theme="contrast"] .field textarea,
+[data-theme="contrast"] .chat-input input,
+[data-theme="contrast"] .classify-select,
+[data-theme="contrast"] .glossary-tools input {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+[data-theme="contrast"] .field input::placeholder,
+[data-theme="contrast"] .field textarea::placeholder,
+[data-theme="contrast"] .chat-input input::placeholder,
+[data-theme="contrast"] .glossary-tools input::placeholder {
+  color: #d9d9d9 !important;
+  opacity: 1;
+}
+[data-theme="contrast"] .field input:focus,
+[data-theme="contrast"] .field select:focus,
+[data-theme="contrast"] .field textarea:focus,
+[data-theme="contrast"] .chat-input input:focus,
+[data-theme="contrast"] .glossary-tools input:focus {
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, .35) !important;
+}
+[data-theme="contrast"] .modal {
+  background: rgba(0, 0, 0, .92) !important;
+}
+[data-theme="contrast"] .modal-tabs {
+  background: #000000 !important;
+  border: 1px solid #ffffff;
+}
+[data-theme="contrast"] .modal-tabs button { color: #ffffff !important; }
+[data-theme="contrast"] .modal-tabs button.active {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .modal-close { color: #ffffff !important; }
+[data-theme="contrast"] .modal-close:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .link-btn { color: #ffd700 !important; }
+[data-theme="contrast"] .divider::before,
+[data-theme="contrast"] .divider::after { background: #ffffff; }
+[data-theme="contrast"] .pw-meter i { background: #3a3a3a; }
+
+/* Painel de acessibilidade */
+[data-theme="contrast"] .a11y-panel { border-color: #ffd700 !important; }
+[data-theme="contrast"] .a11y-row { color: #ffffff !important; }
+[data-theme="contrast"] .a11y-row + .a11y-row { border-top: 1px solid #ffffff; }
+[data-theme="contrast"] .a11y-row .seg button {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+[data-theme="contrast"] .a11y-row .seg button.active {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .a11y-toggle {
+  background: #000000 !important;
+  color: #ffd700 !important;
+  border: 2px solid #ffd700 !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .a11y-toggle:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .switch .slider {
+  background: #3a3a3a !important;
+  border: 1px solid #ffffff;
+}
+[data-theme="contrast"] .switch input:checked + .slider {
+  background: #ffd700 !important;
+}
+[data-theme="contrast"] .switch .slider::before { background: #000000; }
+[data-theme="contrast"] .switch input:checked + .slider::before { background: #000000; }
+
+/* Rodapé */
+[data-theme="contrast"] .footer {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-top: 2px solid #ffd700;
+}
+[data-theme="contrast"] .footer h4,
+[data-theme="contrast"] .footer-slogan { color: #ffd700 !important; }
+[data-theme="contrast"] .footer a,
+[data-theme="contrast"] .footer-bottom { color: #ffffff !important; }
+[data-theme="contrast"] .footer a:hover,
+[data-theme="contrast"] .footer a:focus-visible {
+  color: #ffd700 !important;
+  text-decoration: underline;
+}
+[data-theme="contrast"] .footer-bottom { border-top: 1px solid #ffffff; }
+
+/* CTA, calculadora e cookie banner */
+[data-theme="contrast"] .cta-band,
+[data-theme="contrast"] .calc-head {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffd700;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .cta-band h2,
+[data-theme="contrast"] .cta-band p,
+[data-theme="contrast"] .calc-head h3,
+[data-theme="contrast"] .calc-head p { color: #ffffff !important; }
+[data-theme="contrast"] .cta-contact a,
+[data-theme="contrast"] .cta-contact span {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  color: #ffffff !important;
+}
+[data-theme="contrast"] .cta-contact a:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .cta-contact i { color: #ffd700 !important; }
+[data-theme="contrast"] .cookie-banner {
+  background: #000000 !important;
+  border-top: 2px solid #ffd700 !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .cookie-inner p { color: #ffffff !important; }
+[data-theme="contrast"] .cookie-inner a { color: #ffd700 !important; }
+
+/* Alertas, badges e progresso */
+[data-theme="contrast"] .alert { border: 2px solid currentColor; }
+[data-theme="contrast"] .badge { border: 1px solid currentColor; }
+[data-theme="contrast"] .progress {
+  background: #1a1a1a;
+  border: 1px solid #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   5. RODAPÉ — contraste e legibilidade
+   -------------------------------------------------------------------------- */
+.footer { border-top: 1px solid rgba(212, 175, 55, .28); }
+.footer h4 { letter-spacing: .05em; }
+.footer a { text-underline-offset: 3px; }
+.footer a:hover, .footer a:focus-visible {
+  color: var(--gold-light);
+  text-decoration: underline;
+}
+.footer p { color: #d8c8c2; }
+.footer-bottom { color: #cbb8b2; }
