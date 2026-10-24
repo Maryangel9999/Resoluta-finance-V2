@@ -1047,3 +1047,673 @@ body.cookie-open .a11y-bar { bottom: 120px; }
 }
 .footer p { color: #d8c8c2; }
 .footer-bottom { color: #cbb8b2; }
+
+/* ==========================================================================
+   V3 — CORREÇÕES DE ACESSIBILIDADE
+   1. Escala global de fonte (A- 90% / A 100% / A+ 120%)
+   2. Tema alto contraste — blindagem AAA
+   3. Painel de acessibilidade premium
+   4. Reforço de destaque da logo
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. ESCALA GLOBAL DE FONTE
+   A raiz html controla todos os rem/em do site (menu, hero, cards,
+   formulários, dashboard, rodapé). Antes só o body era afetado, por isso
+   os títulos e cards não mudavam de tamanho.
+   -------------------------------------------------------------------------- */
+html {
+  font-size: calc(100% * var(--font-scale, 1));
+}
+body {
+  font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   2. TEMA ALTO CONTRASTE — BLINDAGEM AAA
+   Preto puro #000000, branco puro #FFFFFF, dourado #FFD700.
+   Nenhum texto, link, botão ou ícone pode desaparecer.
+   -------------------------------------------------------------------------- */
+[data-theme="contrast"] {
+  --bg: #000000;
+  --bg-alt: #000000;
+  --surface: #000000;
+  --surface-2: #000000;
+  --text: #ffffff;
+  --text-soft: #ffffff;
+  --text-invert: #000000;
+  --border: #ffffff;
+  --border-strong: #ffffff;
+  --burgundy: #ffd700;
+  --burgundy-dark: #000000;
+  --burgundy-darker: #000000;
+  --gold: #ffd700;
+  --gold-strong: #ffd700;
+  --gold-light: #ffffff;
+  --gold-soft: transparent;
+  --shadow: none;
+  --shadow-sm: none;
+  --shadow-lg: none;
+}
+
+/* Nada de sombras/brilhos que reduzam legibilidade */
+[data-theme="contrast"] *,
+[data-theme="contrast"] *::before,
+[data-theme="contrast"] *::after {
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* Fundos: sempre preto puro, sem gradientes */
+[data-theme="contrast"] body,
+[data-theme="contrast"] main,
+[data-theme="contrast"] section,
+[data-theme="contrast"] header,
+[data-theme="contrast"] footer,
+[data-theme="contrast"] nav,
+[data-theme="contrast"] aside,
+[data-theme="contrast"] .header,
+[data-theme="contrast"] .hero,
+[data-theme="contrast"] .cta-band,
+[data-theme="contrast"] .calc-head,
+[data-theme="contrast"] .learn-hero,
+[data-theme="contrast"] .legal-hero,
+[data-theme="contrast"] .footer,
+[data-theme="contrast"] .sidebar,
+[data-theme="contrast"] .topbar,
+[data-theme="contrast"] .cookie-banner,
+[data-theme="contrast"] .a11y-panel,
+[data-theme="contrast"] .modal-card {
+  background: #000000 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+
+/* Texto: branco puro por padrão */
+[data-theme="contrast"] h1,
+[data-theme="contrast"] h2,
+[data-theme="contrast"] h3,
+[data-theme="contrast"] h4,
+[data-theme="contrast"] h5,
+[data-theme="contrast"] h6,
+[data-theme="contrast"] p,
+[data-theme="contrast"] span,
+[data-theme="contrast"] li,
+[data-theme="contrast"] dt,
+[data-theme="contrast"] dd,
+[data-theme="contrast"] label,
+[data-theme="contrast"] legend,
+[data-theme="contrast"] small,
+[data-theme="contrast"] strong,
+[data-theme="contrast"] b,
+[data-theme="contrast"] em,
+[data-theme="contrast"] th,
+[data-theme="contrast"] td,
+[data-theme="contrast"] figcaption,
+[data-theme="contrast"] blockquote {
+  color: #ffffff !important;
+}
+
+/* Destaques em dourado */
+[data-theme="contrast"] .eyebrow,
+[data-theme="contrast"] .kicker,
+[data-theme="contrast"] .section-title .eyebrow,
+[data-theme="contrast"] .footer h4,
+[data-theme="contrast"] .a11y-panel h4,
+[data-theme="contrast"] .a11y-panel h4 i,
+[data-theme="contrast"] .plan-card h3,
+[data-theme="contrast"] .price,
+[data-theme="contrast"] .brand-name {
+  color: #ffd700 !important;
+}
+
+/* Links sempre visíveis */
+[data-theme="contrast"] a,
+[data-theme="contrast"] .link-btn,
+[data-theme="contrast"] .footer a,
+[data-theme="contrast"] .nav a,
+[data-theme="contrast"] .side-link {
+  color: #ffffff !important;
+  text-decoration-color: #ffd700;
+}
+[data-theme="contrast"] a:hover,
+[data-theme="contrast"] a:focus-visible,
+[data-theme="contrast"] .nav a:hover,
+[data-theme="contrast"] .nav a.active,
+[data-theme="contrast"] .nav a[aria-current="page"],
+[data-theme="contrast"] .footer a:hover,
+[data-theme="contrast"] .side-link:hover,
+[data-theme="contrast"] .side-link.active,
+[data-theme="contrast"] .link-btn {
+  color: #ffd700 !important;
+  text-decoration: underline;
+}
+
+/* Bordas visíveis em todo componente de interface */
+[data-theme="contrast"] .card,
+[data-theme="contrast"] .tool-card,
+[data-theme="contrast"] .plan-card,
+[data-theme="contrast"] .calc-shell,
+[data-theme="contrast"] .result-box,
+[data-theme="contrast"] .modal-card,
+[data-theme="contrast"] .a11y-panel,
+[data-theme="contrast"] .lesson,
+[data-theme="contrast"] .quiz,
+[data-theme="contrast"] .exercise,
+[data-theme="contrast"] .glossary,
+[data-theme="contrast"] .kpi,
+[data-theme="contrast"] .hero-card,
+[data-theme="contrast"] .learn-hero-card,
+[data-theme="contrast"] .learn-nav-item,
+[data-theme="contrast"] .legal-toc,
+[data-theme="contrast"] .legal-content,
+[data-theme="contrast"] .chat,
+[data-theme="contrast"] .table-wrap,
+[data-theme="contrast"] table.data,
+[data-theme="contrast"] .dropdown-menu,
+[data-theme="contrast"] .empty-state,
+[data-theme="contrast"] .msg.bot,
+[data-theme="contrast"] .msg.user,
+[data-theme="contrast"] .chat-suggest,
+[data-theme="contrast"] .quiz-opt,
+[data-theme="contrast"] .classify-row,
+[data-theme="contrast"] .opt-group {
+  background: #000000 !important;
+  background-image: none !important;
+  border: 2px solid #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* Botões: nenhum pode desaparecer */
+[data-theme="contrast"] .btn,
+[data-theme="contrast"] .btn-primary,
+[data-theme="contrast"] .btn-light,
+[data-theme="contrast"] .btn-ghost,
+[data-theme="contrast"] .btn-secondary,
+[data-theme="contrast"] .btn-sm,
+[data-theme="contrast"] .btn-lg,
+[data-theme="contrast"] .icon-btn,
+[data-theme="contrast"] .nav-toggle {
+  border: 2px solid #ffd700 !important;
+  color: #ffd700 !important;
+  background: #000000 !important;
+  background-image: none !important;
+  opacity: 1 !important;
+}
+[data-theme="contrast"] .btn-primary {
+  background: #ffd700 !important;
+  border-color: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .btn-primary:hover,
+[data-theme="contrast"] .btn-primary:focus-visible {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .btn-light,
+[data-theme="contrast"] .btn-ghost {
+  background: #000000 !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
+}
+[data-theme="contrast"] .btn-light:hover,
+[data-theme="contrast"] .btn-ghost:hover {
+  background: #ffd700 !important;
+  border-color: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .btn:disabled,
+[data-theme="contrast"] .btn[disabled] {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px dashed #ffffff !important;
+  opacity: 1 !important;
+}
+[data-theme="contrast"] .btn:focus-visible,
+[data-theme="contrast"] a:focus-visible,
+[data-theme="contrast"] button:focus-visible,
+[data-theme="contrast"] input:focus-visible,
+[data-theme="contrast"] select:focus-visible,
+[data-theme="contrast"] textarea:focus-visible {
+  outline: 3px solid #ffd700 !important;
+  outline-offset: 3px !important;
+}
+
+/* Formulários */
+[data-theme="contrast"] input,
+[data-theme="contrast"] select,
+[data-theme="contrast"] textarea {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+[data-theme="contrast"] input::placeholder,
+[data-theme="contrast"] textarea::placeholder {
+  color: #d9d9d9 !important;
+  opacity: 1 !important;
+}
+[data-theme="contrast"] input:focus,
+[data-theme="contrast"] select:focus,
+[data-theme="contrast"] textarea:focus {
+  border-color: #ffd700 !important;
+  outline: 3px solid #ffd700 !important;
+  outline-offset: 2px !important;
+}
+
+/* Cabeçalho, rodapé e painel: divisores dourados */
+[data-theme="contrast"] .header { border-bottom: 2px solid #ffd700 !important; }
+[data-theme="contrast"] .footer { border-top: 2px solid #ffd700 !important; }
+[data-theme="contrast"] .sidebar { border-right: 2px solid #ffd700 !important; }
+[data-theme="contrast"] .topbar { border-bottom: 2px solid #ffd700 !important; }
+
+/* Skip link e legendas de imagem */
+[data-theme="contrast"] .skip-link,
+[data-theme="contrast"] .skip-link:focus,
+[data-theme="contrast"] .skip-link:focus-visible {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border: 2px solid #ffd700 !important;
+}
+[data-theme="contrast"] figcaption {
+  background: #000000 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+}
+
+/* Badges, pills e avisos */
+[data-theme="contrast"] .badge,
+[data-theme="contrast"] .pill,
+[data-theme="contrast"] .tag,
+[data-theme="contrast"] .chip,
+[data-theme="contrast"] .alert,
+[data-theme="contrast"] .note,
+[data-theme="contrast"] .legal-note {
+  background: #000000 !important;
+  border: 2px solid #ffd700 !important;
+  color: #ffffff !important;
+}
+
+/* Seleção de texto */
+[data-theme="contrast"] ::selection {
+  background: #ffd700;
+  color: #000000;
+}
+
+/* --------------------------------------------------------------------------
+   3. PAINEL DE ACESSIBILIDADE PREMIUM
+   Botão flutuante elegante, painel recolhível, animações suaves,
+   visual corporativo e responsivo (desktop / tablet / mobile).
+   -------------------------------------------------------------------------- */
+.a11y-bar {
+  right: 22px;
+  bottom: 22px;
+  gap: 14px;
+  align-items: flex-end;
+}
+body.cookie-open .a11y-bar { bottom: 132px; }
+
+/* Botão flutuante */
+.a11y-toggle {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: 2px solid rgba(212, 175, 55, .85);
+  background:
+    radial-gradient(circle at 32% 26%, #6a1730 0%, #3a0b17 48%, #1c040b 100%);
+  color: #f4d47c;
+  font-size: 1.6rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, .42),
+    0 0 0 7px rgba(212, 175, 55, .10),
+    inset 0 1px 0 rgba(255, 255, 255, .16);
+  transition:
+    transform .28s cubic-bezier(.34, 1.56, .64, 1),
+    box-shadow .28s ease,
+    border-color .28s ease,
+    background .28s ease;
+}
+.a11y-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, .35);
+  opacity: 0;
+  transform: scale(.9);
+  transition: opacity .3s ease, transform .3s ease;
+  pointer-events: none;
+}
+.a11y-toggle:hover {
+  transform: translateY(-3px) scale(1.05);
+  border-color: rgba(212, 175, 55, 1);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, .48),
+    0 0 0 8px rgba(212, 175, 55, .16),
+    0 0 22px rgba(212, 175, 55, .35),
+    inset 0 1px 0 rgba(255, 255, 255, .2);
+}
+.a11y-toggle:hover::before,
+.a11y-toggle[aria-expanded="true"]::before {
+  opacity: 1;
+  transform: scale(1);
+}
+.a11y-toggle:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+.a11y-toggle[aria-expanded="true"] {
+  background: radial-gradient(circle at 32% 26%, #8a1f3e 0%, #4a0e1d 52%, #24060e 100%);
+  border-color: var(--gold);
+}
+.a11y-toggle i { pointer-events: none; }
+
+/* Painel */
+.a11y-panel {
+  position: relative;
+  display: block;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(12px) scale(.96);
+  transform-origin: bottom right;
+  width: 336px;
+  max-width: calc(100vw - 44px);
+  padding: 0;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, .34),
+    0 2px 0 rgba(255, 255, 255, .05) inset;
+  pointer-events: none;
+  transition:
+    opacity .22s ease,
+    transform .28s cubic-bezier(.34, 1.4, .64, 1),
+    visibility .22s linear;
+}
+.a11y-panel.open {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  animation: none;
+}
+
+/* Cabeçalho do painel */
+.a11y-panel h4 {
+  margin: 0;
+  padding: 17px 54px 17px 18px;
+  font-size: .95rem;
+  font-weight: 800;
+  letter-spacing: .03em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(120deg, #2a0510, var(--burgundy-dark) 70%);
+  color: #fff;
+  border-bottom: 1px solid rgba(212, 175, 55, .38);
+}
+.a11y-panel h4 i {
+  color: var(--gold);
+  font-size: 1.05rem;
+}
+
+/* Botão fechar */
+.a11y-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 175, 55, .45);
+  background: rgba(255, 255, 255, .08);
+  color: #fff;
+  font-size: .8rem;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease, border-color .2s ease;
+}
+.a11y-close:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #2a0510;
+  transform: rotate(90deg);
+}
+.a11y-close:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Linhas */
+.a11y-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  font-size: .86rem;
+  line-height: 1.35;
+}
+.a11y-row + .a11y-row { border-top: 1px solid var(--border); }
+.a11y-row > span { font-weight: 600; color: var(--text); }
+.a11y-row .seg { display: flex; gap: 5px; flex: none; }
+.a11y-row .seg button {
+  min-width: 42px;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: .8rem;
+  color: var(--text);
+  transition: background .18s ease, color .18s ease, border-color .18s ease, transform .12s ease;
+}
+.a11y-row .seg button:hover { border-color: var(--gold); }
+.a11y-row .seg button:active { transform: scale(.96); }
+.a11y-row .seg button:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+.a11y-row .seg button.active {
+  background: var(--burgundy);
+  color: #fff;
+  border-color: var(--burgundy);
+}
+
+/* Interruptor */
+.switch { position: relative; width: 48px; height: 27px; flex: none; }
+.switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+.switch .slider {
+  position: absolute;
+  inset: 0;
+  background: var(--border-strong);
+  border-radius: 30px;
+  transition: background .22s ease;
+  cursor: pointer;
+}
+.switch .slider::before {
+  content: "";
+  position: absolute;
+  width: 21px;
+  height: 21px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform .22s cubic-bezier(.34, 1.4, .64, 1);
+}
+.switch input:checked + .slider { background: var(--burgundy); }
+.switch input:checked + .slider::before { transform: translateX(21px); }
+.switch input:focus-visible + .slider { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* Painel no tema escuro */
+[data-theme="dark"] .a11y-panel h4 { color: #fff; }
+[data-theme="dark"] .a11y-panel { background: var(--surface); }
+
+/* Painel no alto contraste */
+[data-theme="contrast"] .a11y-panel {
+  background: #000000 !important;
+  border: 2px solid #ffd700 !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .a11y-panel h4 {
+  background: #000000 !important;
+  background-image: none !important;
+  color: #ffd700 !important;
+  border-bottom: 2px solid #ffd700 !important;
+}
+[data-theme="contrast"] .a11y-row { border-top-color: #ffffff !important; }
+[data-theme="contrast"] .a11y-row > span { color: #ffffff !important; }
+[data-theme="contrast"] .a11y-row .seg button {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+[data-theme="contrast"] .a11y-row .seg button.active {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .a11y-toggle {
+  background: #000000 !important;
+  color: #ffd700 !important;
+  border: 2px solid #ffd700 !important;
+}
+[data-theme="contrast"] .a11y-toggle:hover,
+[data-theme="contrast"] .a11y-toggle[aria-expanded="true"] {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .a11y-close {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+[data-theme="contrast"] .switch .slider { background: #ffffff !important; }
+[data-theme="contrast"] .switch .slider::before { background: #000000 !important; }
+[data-theme="contrast"] .switch input:checked + .slider { background: #ffd700 !important; }
+
+/* Responsivo do painel */
+@media (max-width: 900px) {
+  .a11y-bar { right: 16px; bottom: 16px; }
+  .a11y-panel { width: 320px; }
+}
+@media (max-width: 620px) {
+  .a11y-bar { right: 14px; bottom: 14px; gap: 10px; }
+  .a11y-toggle { width: 56px; height: 56px; font-size: 1.4rem; }
+  .a11y-panel {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 84px;
+    width: auto;
+    max-width: none;
+    transform-origin: bottom center;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+    border-radius: 18px;
+  }
+  .a11y-row { padding: 13px 15px; font-size: .84rem; }
+  .a11y-row .seg button { min-width: 38px; height: 32px; }
+  body.cookie-open .a11y-bar { bottom: 150px; }
+}
+@media (max-width: 380px) {
+  .a11y-toggle { width: 52px; height: 52px; font-size: 1.3rem; }
+  .a11y-row { flex-wrap: wrap; gap: 8px; }
+  .a11y-row .seg { width: 100%; }
+  .a11y-row .seg button { flex: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   4. REFORÇO DE DESTAQUE DA LOGO
+   Mantém o layout; apenas realça presença, contraste e brilho dourado.
+   -------------------------------------------------------------------------- */
+.header .brand {
+  position: relative;
+  isolation: isolate;
+}
+.header .brand-logo {
+  filter:
+    contrast(1.14) saturate(1.14) brightness(1.18)
+    drop-shadow(0 0 10px rgba(212, 175, 55, .52))
+    drop-shadow(0 6px 14px rgba(0, 0, 0, .6));
+  transition: filter .28s ease, transform .28s ease;
+}
+.header .brand:hover .brand-logo {
+  filter:
+    contrast(1.16) saturate(1.16) brightness(1.22)
+    drop-shadow(0 0 14px rgba(212, 175, 55, .68))
+    drop-shadow(0 6px 16px rgba(0, 0, 0, .62));
+  transform: translateY(-1px);
+}
+.footer .brand-logo {
+  filter:
+    contrast(1.14) saturate(1.14) brightness(1.2)
+    drop-shadow(0 0 10px rgba(212, 175, 55, .5))
+    drop-shadow(0 6px 14px rgba(0, 0, 0, .6));
+}
+[data-theme="contrast"] .header .brand,
+[data-theme="contrast"] .footer .brand,
+[data-theme="contrast"] .sidebar-head .brand {
+  background: #000000 !important;
+  background-image: none !important;
+  border: 2px solid #ffd700 !important;
+}
+[data-theme="contrast"] .header .brand-logo,
+[data-theme="contrast"] .footer .brand-logo,
+[data-theme="contrast"] .sidebar-head .brand-logo {
+  filter:
+    contrast(1.2) saturate(1.12) brightness(1.3)
+    drop-shadow(0 0 10px rgba(255, 215, 0, .8)) !important;
+}
+
+/* --- V3.1: ajuste fino do painel (evita corte de rótulos longos) --- */
+.a11y-panel { width: 380px; }
+.a11y-row .seg {
+  flex: none;
+  gap: 5px;
+  justify-content: flex-end;
+}
+.a11y-row .seg button {
+  min-width: 40px;
+  padding: 0 8px;
+  white-space: nowrap;
+}
+[data-theme="contrast"] .a11y-row .seg button { padding: 0 7px; }
+@media (max-width: 900px) { .a11y-panel { width: 356px; } }
+@media (max-width: 620px) {
+  .a11y-panel { width: auto; }
+  .a11y-row { flex-wrap: wrap; }
+  .a11y-row .seg { width: 100%; justify-content: stretch; }
+  .a11y-row .seg button { flex: 1 1 auto; }
+}
+
+/* V3.2: neutraliza largura fixa legada dos botões do segmento */
+.a11y-row .seg button {
+  width: auto;
+  min-width: 42px;
+  flex: 0 0 auto;
+}
+
+/* V3.3: badges e sinalizadores — preto sobre dourado (AAA) */
+[data-theme="contrast"] .about-badge,
+[data-theme="contrast"] .plan-flag,
+[data-theme="contrast"] .badge,
+[data-theme="contrast"] .pill,
+[data-theme="contrast"] .tag,
+[data-theme="contrast"] .chip {
+  background: #ffd700 !important;
+  background-image: none !important;
+  color: #000000 !important;
+  border: 2px solid #ffd700 !important;
+}
