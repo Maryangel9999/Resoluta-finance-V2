@@ -1971,3 +1971,295 @@ body.cookie-open .a11y-bar { bottom: 132px; }
   color: #ffd700 !important;
   border: 2px solid #ffd700 !important;
 }
+
+/* ==========================================================================
+   V6 — APRESENTAÇÃO PREMIUM DA MARCA (Resoluta AGI)
+   --------------------------------------------------------------------------
+   Escopo: SOMENTE a apresentação da marca.
+   Não altera Hero (textos/botões), cards, navegação, Login, Cadastro,
+   Dashboard, Calculadoras, Gamificação, VLibras nem a estrutura do site.
+
+   Direção visual: a marca deve ser percebida primeiro; os textos depois.
+   Autoridade, gestão, inovação, tecnologia e profissionalismo — sem exageros.
+   ========================================================================== */
+
+/* Altura do cabeçalho acompanha a logo maior (evita corte) */
+:root { --header-h: 92px; }
+
+/* --------------------------------------------------------------------------
+   1. CABEÇALHO — área exclusiva e destacada para a marca
+   -------------------------------------------------------------------------- */
+.header .brand {
+  position: relative;
+  isolation: isolate;
+  padding: 9px 22px 9px 16px;
+  border-radius: 16px;
+  background:
+    radial-gradient(135% 150% at 50% -20%, rgba(255, 215, 0, .28), rgba(20, 4, 9, .88) 62%),
+    linear-gradient(180deg, rgba(255, 255, 255, .06), rgba(0, 0, 0, .22)),
+    rgba(12, 2, 6, .74);
+  border: 1px solid rgba(212, 175, 55, .55);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, .50),
+    0 0 0 1px rgba(255, 255, 255, .05) inset,
+    inset 0 1px 0 rgba(255, 255, 255, .14);
+  transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+}
+/* Halo dourado suave ao redor da área da marca */
+.header .brand::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    0 0 22px rgba(212, 175, 55, .28),
+    0 0 46px rgba(212, 175, 55, .12);
+  transition: box-shadow .3s ease;
+}
+.header .brand:hover {
+  border-color: rgba(212, 175, 55, .85);
+  transform: translateY(-1px);
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, .55),
+    0 0 0 1px rgba(255, 255, 255, .07) inset,
+    inset 0 1px 0 rgba(255, 255, 255, .18);
+}
+.header .brand:hover::after {
+  box-shadow:
+    0 0 30px rgba(212, 175, 55, .40),
+    0 0 62px rgba(212, 175, 55, .18);
+}
+
+/* Logo 25% maior: 56px -> 70px */
+.header .brand-logo {
+  height: 70px;
+  width: auto;
+  max-width: none;
+  filter:
+    contrast(1.14) saturate(1.16) brightness(1.20)
+    drop-shadow(0 0 12px rgba(212, 175, 55, .55))
+    drop-shadow(0 8px 18px rgba(0, 0, 0, .65));
+  transition: filter .3s ease, transform .3s ease;
+}
+.header .brand:hover .brand-logo {
+  filter:
+    contrast(1.16) saturate(1.18) brightness(1.24)
+    drop-shadow(0 0 18px rgba(212, 175, 55, .70))
+    drop-shadow(0 8px 20px rgba(0, 0, 0, .68));
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   2. HERO — apresentação destacada da marca (acima do conteúdo principal)
+   Elemento puramente visual: não altera textos, botões nem o grid do Hero.
+   -------------------------------------------------------------------------- */
+.hero-brand {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 26px;
+  padding: 14px 20px;
+  border-radius: 20px;
+  background:
+    radial-gradient(120% 160% at 50% -10%, rgba(255, 215, 0, .22), rgba(10, 2, 5, .62) 66%),
+    linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(0, 0, 0, .16)),
+    rgba(10, 2, 5, .46);
+  border: 1px solid rgba(212, 175, 55, .45);
+  box-shadow:
+    0 18px 46px rgba(0, 0, 0, .42),
+    inset 0 1px 0 rgba(255, 255, 255, .10);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+/* Filete dourado superior — assinatura institucional */
+.hero-brand::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18%;
+  right: 18%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, .85), transparent);
+  pointer-events: none;
+}
+/* Halo dourado suave */
+.hero-brand::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    0 0 26px rgba(212, 175, 55, .26),
+    0 0 60px rgba(212, 175, 55, .12);
+}
+.hero-brand .brand-logo,
+.hero-brand-logo {
+  height: 92px;
+  width: auto;
+  max-width: 100%;
+  filter:
+    contrast(1.15) saturate(1.18) brightness(1.22)
+    drop-shadow(0 0 16px rgba(212, 175, 55, .55))
+    drop-shadow(0 10px 24px rgba(0, 0, 0, .62));
+}
+
+/* --------------------------------------------------------------------------
+   3. RODAPÉ — encerramento institucional com a marca em destaque
+   -------------------------------------------------------------------------- */
+.footer .brand {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 24px;
+  border-radius: 18px;
+  background:
+    radial-gradient(130% 150% at 50% -20%, rgba(255, 215, 0, .22), rgba(8, 2, 4, .88) 66%),
+    linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(0, 0, 0, .20)),
+    rgba(8, 2, 4, .72);
+  border: 1px solid rgba(212, 175, 55, .50);
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, .48),
+    inset 0 1px 0 rgba(255, 255, 255, .10);
+}
+.footer .brand::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    0 0 20px rgba(212, 175, 55, .24),
+    0 0 44px rgba(212, 175, 55, .10);
+}
+/* Logo 25% maior: 52px -> 65px */
+.footer .brand-logo {
+  height: 65px !important;
+  width: auto;
+  max-width: none;
+  filter:
+    contrast(1.14) saturate(1.16) brightness(1.22)
+    drop-shadow(0 0 12px rgba(212, 175, 55, .52))
+    drop-shadow(0 8px 18px rgba(0, 0, 0, .62));
+}
+
+/* --------------------------------------------------------------------------
+   4. ALTO CONTRASTE — mantém a marca legível sem glow decorativo
+   -------------------------------------------------------------------------- */
+[data-theme="contrast"] .hero-brand {
+  background: #000000 !important;
+  background-image: none !important;
+  border: 2px solid #ffd700 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+[data-theme="contrast"] .hero-brand::before,
+[data-theme="contrast"] .hero-brand::after { display: none; }
+[data-theme="contrast"] .hero-brand .brand-logo,
+[data-theme="contrast"] .hero-brand-logo {
+  filter: contrast(1.2) saturate(1.12) brightness(1.3)
+          drop-shadow(0 0 10px rgba(255, 215, 0, .8)) !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. RESPONSIVO — proporção de 25% preservada em todas as telas
+   -------------------------------------------------------------------------- */
+@media (max-width: 980px) {
+  .hero-brand .brand-logo,
+  .hero-brand-logo { height: 84px; }
+}
+
+@media (max-width: 620px) {
+  :root { --header-h: 80px; }
+  .header .brand { padding: 7px 14px 7px 11px; border-radius: 13px; }
+  .header .brand-logo { height: 55px; }          /* 44px + 25% */
+  .footer .brand { padding: 11px 18px; border-radius: 15px; }
+  .footer .brand-logo { height: 58px !important; } /* 46px + 25% */
+  .hero-brand { padding: 11px 16px; border-radius: 16px; margin-bottom: 20px; }
+  .hero-brand .brand-logo,
+  .hero-brand-logo { height: 74px; }
+}
+
+@media (max-width: 380px) {
+  .header .brand { padding: 6px 10px; }
+  .header .brand-logo { height: 48px; }          /* 38px + 25% */
+  .footer .brand-logo { height: 50px !important; }
+  .hero-brand .brand-logo,
+  .hero-brand-logo { height: 64px; }
+}
+
+/* Impressão: sem halos, marca legível em papel */
+@media print {
+  .header .brand,
+  .footer .brand,
+  .hero-brand {
+    background: none !important;
+    border: 1px solid #999 !important;
+    box-shadow: none !important;
+  }
+  .header .brand::after,
+  .footer .brand::after,
+  .hero-brand::before,
+  .hero-brand::after { display: none !important; }
+  .header .brand-logo,
+  .footer .brand-logo,
+  .hero-brand .brand-logo { filter: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   V6.1 — Posicionamento da marca na Hero: lado direito, acima do card
+   Preserva a ordem original do conteúdo (badge > título > texto > botões > stats).
+   -------------------------------------------------------------------------- */
+.hero-grid {
+  grid-template-columns: 1.15fr .85fr;
+  grid-template-rows: auto auto;
+}
+.hero-grid > div:first-child {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+.hero-brand {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: start;
+  align-self: end;
+  margin: 0 0 16px;
+}
+.hero-card {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+}
+
+@media (max-width: 980px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .hero-grid > div:first-child,
+  .hero-brand,
+  .hero-card {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .hero-brand {
+    order: -2;
+    justify-self: start;
+    align-self: auto;
+    margin: 0 0 18px;
+    display: none; /* em coluna única ficaria redundante com a marca do cabeçalho */
+  }
+  .hero-card { order: -1; }
+}
+
+/* Em telas pequenas a marca do cabeçalho já cumpre o papel — evita duplicação */
+@media (max-width: 620px) {
+  .hero-brand { display: none; }
+  .hero-brand .brand-logo,
+  .hero-brand-logo { height: 64px; }
+}
