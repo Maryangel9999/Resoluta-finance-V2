@@ -7,7 +7,21 @@
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('sw.js').catch(function (err) {
+      navigator.serviceWorker.register('sw.js').then(function (reg) {
+        /* Procura uma versão nova do SW a cada carregamento.
+           Sem isso, o navegador podia ficar preso numa versão antiga
+           e continuar servindo CSS desatualizado. */
+        reg.update().catch(function () {});
+
+        /* Quando um SW novo assume o controle, recarrega UMA vez
+           para aplicar CSS/JS atualizados. */
+        var reloaded = false;
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+          if (reloaded) return;
+          reloaded = true;
+          window.location.reload();
+        });
+      }).catch(function (err) {
         console.warn('Service Worker não registrado:', err);
       });
     });
