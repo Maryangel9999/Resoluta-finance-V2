@@ -406,3 +406,60 @@ if (forgotForm) forgotForm.addEventListener('submit', async function (e) {
     }
   });
 })();
+const sendEmailBtn = document.getElementById('sendEmailRecoveryBtn');
+
+if (sendEmailBtn) {
+
+  sendEmailBtn.addEventListener('click', async () => {
+
+    const emailInput = document.getElementById('recoveryEmail');
+    const email = emailInput ? emailInput.value.trim() : '';
+
+    if (!email) {
+      alert('Por favor, informe seu e-mail.');
+      return;
+    }
+
+    if (!window.supabaseClient) {
+      alert('Erro crítico: Cliente Supabase não inicializado.');
+      return;
+    }
+
+    sendEmailBtn.disabled = true;
+    sendEmailBtn.textContent = 'Enviando...';
+
+    try {
+
+      const { error } =
+        await window.supabaseClient.auth.resetPasswordForEmail(
+          email,
+          {
+            redirectTo:
+              'https://maryangel9999.github.io/Resoluta-finance-V2/reset-password.html'
+          }
+        );
+
+      if (error) throw error;
+
+      alert('Link de recuperação enviado com sucesso! Verifique seu e-mail.');
+
+      emailInput.value = '';
+
+    } catch (err) {
+
+      alert(
+        err.message ||
+        'Ocorreu um erro ao enviar o e-mail.'
+      );
+
+    } finally {
+
+      sendEmailBtn.disabled = false;
+      sendEmailBtn.textContent =
+        'Enviar link de recuperação';
+
+    }
+
+  });
+
+}
