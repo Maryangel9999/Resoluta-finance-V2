@@ -2263,3 +2263,6 @@ body.cookie-open .a11y-bar { bottom: 132px; }
   .hero-brand .brand-logo,
   .hero-brand-logo { height: 64px; }
 }
+[hidden] {
+    display: none !important;
+}
