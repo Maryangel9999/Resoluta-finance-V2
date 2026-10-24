@@ -392,3 +392,332 @@ table.data .empty { text-align: center; color: var(--text-soft); padding: 30px; 
   .legal-wrap { grid-template-columns: 1fr; }
   .legal-toc { position: static; }
 }
+
+/* ==========================================================================
+   AJUSTES VISUAIS E DE ACESSIBILIDADE — PAINEL / APRENDA / LEGAL
+   Complementa style.css sem alterar layout ou estrutura.
+   ========================================================================== */
+
+/* Logo em destaque na sidebar */
+.sidebar-head .brand {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border-radius: 13px;
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(212, 175, 55, .20), rgba(10, 2, 5, .82) 70%),
+    rgba(10, 2, 5, .6);
+  border: 1px solid rgba(212, 175, 55, .42);
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, .42),
+    inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+.sidebar-head .brand-logo {
+  height: 48px;
+  width: auto;
+  max-width: none;
+  filter:
+    contrast(1.12) saturate(1.12) brightness(1.18)
+    drop-shadow(0 0 9px rgba(212, 175, 55, .48))
+    drop-shadow(0 6px 14px rgba(0, 0, 0, .58));
+}
+
+/* Botões do painel nunca ultrapassam a tela */
+.icon-btn:focus-visible,
+.user-chip:focus-visible,
+.side-link:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 620px) {
+  .sidebar-head .brand { padding: 5px 10px; }
+  .sidebar-head .brand-logo { height: 42px; }
+}
+
+/* --------------------------------------------------------------------------
+   TEMA ALTO CONTRASTE — painel, sidebar, topbar e dropdown
+   -------------------------------------------------------------------------- */
+[data-theme="contrast"] .sidebar {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-right: 2px solid #ffd700;
+}
+[data-theme="contrast"] .sidebar-head { border-bottom: 2px solid #ffd700; }
+[data-theme="contrast"] .sidebar-head .brand {
+  background: #000000 !important;
+  border: 2px solid #ffd700 !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .sidebar-head .brand-logo {
+  filter:
+    contrast(1.2) saturate(1.12) brightness(1.26)
+    drop-shadow(0 0 8px rgba(255, 215, 0, .72))
+    drop-shadow(0 3px 8px rgba(0, 0, 0, .9)) !important;
+}
+[data-theme="contrast"] .side-group-label { color: #ffffff !important; }
+[data-theme="contrast"] .side-link {
+  color: #ffffff !important;
+  border: 1px solid transparent;
+}
+[data-theme="contrast"] .side-link i { color: #ffd700 !important; }
+[data-theme="contrast"] .side-link:hover,
+[data-theme="contrast"] .side-link:focus-visible {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .side-link:hover i,
+[data-theme="contrast"] .side-link:focus-visible i { color: #000000 !important; }
+[data-theme="contrast"] .side-link.active {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .side-link.active i { color: #000000 !important; }
+[data-theme="contrast"] .sidebar-foot {
+  color: #ffffff !important;
+  border-top: 2px solid #ffd700;
+}
+[data-theme="contrast"] .topbar {
+  background: #000000 !important;
+  border-bottom: 2px solid #ffd700;
+}
+[data-theme="contrast"] .topbar h1 { color: #ffffff !important; }
+[data-theme="contrast"] .topbar .sub { color: #f2f2f2 !important; }
+[data-theme="contrast"] .icon-btn,
+[data-theme="contrast"] .user-chip {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+[data-theme="contrast"] .icon-btn:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .user-chip .u-name { color: #ffffff !important; }
+[data-theme="contrast"] .user-chip .u-plan { color: #ffd700 !important; }
+[data-theme="contrast"] .user-chip .avatar {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .dropdown-menu {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: none !important;
+}
+[data-theme="contrast"] .dropdown-menu button,
+[data-theme="contrast"] .dropdown-menu a { color: #ffffff !important; }
+[data-theme="contrast"] .dropdown-menu button:hover,
+[data-theme="contrast"] .dropdown-menu a:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .dropdown-menu .danger { color: #ff8a80 !important; }
+[data-theme="contrast"] .dropdown-sep { background: #ffffff; }
+[data-theme="contrast"] .sidebar-backdrop { background: rgba(0, 0, 0, .85); }
+
+/* Cards, tabelas e formulários do painel */
+[data-theme="contrast"] .kpi {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+}
+[data-theme="contrast"] .kpi .k-value { color: #ffffff !important; }
+[data-theme="contrast"] .kpi .k-label,
+[data-theme="contrast"] .kpi .k-note { color: #f2f2f2 !important; }
+[data-theme="contrast"] .kpi .k-label i { color: #ffd700 !important; }
+[data-theme="contrast"] table.data {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+[data-theme="contrast"] table.data th {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-bottom: 2px solid #ffd700;
+}
+[data-theme="contrast"] table.data td { border-bottom: 1px solid #ffffff; }
+[data-theme="contrast"] table.data tbody tr:hover { background: #1a1a1a !important; }
+[data-theme="contrast"] .table-wrap { border: 2px solid #ffffff; }
+[data-theme="contrast"] .row-actions button {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+[data-theme="contrast"] .row-actions button:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .tabs button {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+[data-theme="contrast"] .tabs button.active {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .chat-suggest button {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+[data-theme="contrast"] .chat-suggest button:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .msg.bot {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff;
+}
+[data-theme="contrast"] .msg.user {
+  background: #ffd700 !important;
+  color: #000000 !important;
+  border: 1px solid #ffd700;
+}
+[data-theme="contrast"] .opt-group label,
+[data-theme="contrast"] .quiz-opt,
+[data-theme="contrast"] .classify-row {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+[data-theme="contrast"] .opt-group label:has(input:checked),
+[data-theme="contrast"] .quiz-q.ok .quiz-opt:has(input:checked),
+[data-theme="contrast"] .quiz-q.bad .quiz-opt:has(input:checked) {
+  border-color: #ffd700 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+[data-theme="contrast"] .progress > span {
+  background: #ffd700 !important;
+}
+
+/* --------------------------------------------------------------------------
+   TEMA ALTO CONTRASTE — Aprenda
+   -------------------------------------------------------------------------- */
+[data-theme="contrast"] .learn-hero {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-bottom: 2px solid #ffd700;
+}
+[data-theme="contrast"] .learn-hero::after { display: none; }
+[data-theme="contrast"] .learn-hero h1,
+[data-theme="contrast"] .learn-lead,
+[data-theme="contrast"] .learn-progress-note,
+[data-theme="contrast"] .learn-stats span { color: #ffffff !important; }
+[data-theme="contrast"] .learn-hero-card {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  backdrop-filter: none !important;
+}
+[data-theme="contrast"] .learn-hero-card h3,
+[data-theme="contrast"] .learn-stats strong { color: #ffd700 !important; }
+[data-theme="contrast"] .learn-progress-ring::before { background: #000000; }
+[data-theme="contrast"] .learn-progress-ring span { color: #ffffff !important; }
+[data-theme="contrast"] .learn-nav-title { color: #ffffff !important; }
+[data-theme="contrast"] .learn-nav-item {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+[data-theme="contrast"] .learn-nav-item:hover,
+[data-theme="contrast"] .learn-nav-item.active {
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .learn-nav-item.active .lni-ico,
+[data-theme="contrast"] .lni-ico {
+  background: #000000 !important;
+  color: #ffd700 !important;
+  border: 2px solid #ffd700;
+}
+[data-theme="contrast"] .lni-bar { background: #1a1a1a; border: 1px solid #ffffff; }
+[data-theme="contrast"] .lni-bar > span { background: #ffd700 !important; }
+[data-theme="contrast"] .lni-meta { color: #f2f2f2 !important; }
+[data-theme="contrast"] .learn-module-ico {
+  background: #000000 !important;
+  color: #ffd700 !important;
+  border: 2px solid #ffd700;
+}
+[data-theme="contrast"] .learn-module-kicker { color: #ffd700 !important; }
+[data-theme="contrast"] .lesson.done { border-color: #ffd700 !important; }
+[data-theme="contrast"] .lesson-num {
+  background: #000000 !important;
+  color: #ffd700 !important;
+  border: 2px solid #ffd700;
+}
+[data-theme="contrast"] .lesson-time,
+[data-theme="contrast"] .lesson-body { color: #ffffff !important; }
+[data-theme="contrast"] .lesson-listen {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+}
+[data-theme="contrast"] .lesson-listen:hover {
+  background: #ffd700 !important;
+  color: #000000 !important;
+}
+[data-theme="contrast"] .lesson-callout {
+  background: #000000 !important;
+  border-left: 4px solid #ffd700;
+  color: #ffffff !important;
+}
+[data-theme="contrast"] .lesson-callout i { color: #ffd700 !important; }
+[data-theme="contrast"] .lesson-formula {
+  background: #000000 !important;
+  color: #ffd700 !important;
+  border: 2px solid #ffd700;
+}
+[data-theme="contrast"] .learn-exercise {
+  background: #000000 !important;
+  border: 2px dashed #ffffff !important;
+}
+[data-theme="contrast"] .learn-exercise-head i,
+[data-theme="contrast"] .learn-quiz-head i { color: #ffd700 !important; }
+[data-theme="contrast"] .learn-exercise-head p,
+[data-theme="contrast"] .learn-quiz-head p { color: #ffffff !important; }
+[data-theme="contrast"] .classify-row.ok,
+[data-theme="contrast"] .classify-row.bad {
+  background: #000000 !important;
+  border-color: #ffd700 !important;
+}
+[data-theme="contrast"] .quiz-q legend { color: #ffd700 !important; }
+[data-theme="contrast"] .glossary-tools i { color: #ffffff !important; }
+[data-theme="contrast"] .glossary-item h3 { color: #ffffff !important; }
+[data-theme="contrast"] .glossary-item h3 i { color: #ffd700 !important; }
+[data-theme="contrast"] .glossary-item p { color: #f2f2f2 !important; }
+[data-theme="contrast"] .empty-state { color: #ffffff !important; }
+[data-theme="contrast"] .empty-state i { color: #ffd700 !important; }
+
+/* --------------------------------------------------------------------------
+   TEMA ALTO CONTRASTE — páginas legais
+   -------------------------------------------------------------------------- */
+[data-theme="contrast"] .legal-hero {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-bottom: 2px solid #ffd700;
+}
+[data-theme="contrast"] .legal-hero h1,
+[data-theme="contrast"] .legal-hero p,
+[data-theme="contrast"] .legal-meta { color: #ffffff !important; }
+[data-theme="contrast"] .legal-toc a { color: #ffffff !important; }
+[data-theme="contrast"] .legal-toc a:hover { color: #ffd700 !important; }
+[data-theme="contrast"] .legal-content h2,
+[data-theme="contrast"] .legal-content h3 { color: #ffffff !important; }
+[data-theme="contrast"] .legal-content h2 { border-bottom-color: #ffd700; }
+[data-theme="contrast"] .legal-content p,
+[data-theme="contrast"] .legal-content li { color: #ffffff !important; }
+[data-theme="contrast"] .legal-content a { color: #ffd700 !important; }
+[data-theme="contrast"] .legal-content th,
+[data-theme="contrast"] .legal-content td {
+  border: 1px solid #ffffff;
+  color: #ffffff !important;
+}
+[data-theme="contrast"] .legal-content th { background: #000000 !important; }
+[data-theme="contrast"] .legal-content .legal-note {
+  background: #001a2a !important;
+  border-left: 4px solid #ffd700;
+  color: #ffffff !important;
+}
