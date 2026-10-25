@@ -2265,9 +2265,9 @@ body.cookie-open .a11y-bar { bottom: 132px; }
 }
 [hidden] {
    /* Modo reduzir animações */
-.reduced-motion *,
-.reduced-motion *::before,
-.reduced-motion *::after {
+[data-reduce-motion="true"] *,
+[data-reduce-motion="true"] *::before,
+[data-reduce-motion="true"] *::after {
   animation: none !important;
   transition: none !important;
   scroll-behavior: auto !important;
