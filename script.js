@@ -469,38 +469,4 @@ if (!response.ok) {
   });
 
 }
-const validateOtpBtn = document.getElementById('validateOtpBtn');
 
-if (validateOtpBtn) {
-  validateOtpBtn.addEventListener('click', async () => {
-  const email = document.getElementById('recoveryEmail').value.trim();
-  const otpCode = document.getElementById('otpCode').value.trim();
-
-  if (!email || !otpCode) {
-    alert('❌ Por favor, preencha o e-mail e o código OTP.');
-    return;
-  }
-
-  try {
-      const { data, error } = await window.supabaseClient
-  .from('password_reset_codes')
-  .select('*');
-
-     console.log('DATA:', data);
-console.log('ERROR:', error);
-     console.log('EMAIL DIGITADO:', email);
-console.log('OTP DIGITADO:', otpCode);
-return;
-}
-      alert('❌ Código inválido');
-      return;
-    }
-
-    otpValidated = true;
-    alert('✅ Código validado com sucesso');
-  } catch (err) {
-    console.error('Erro ao validar o código:', err);
-    alert('❌ Código inválido');
-  }
-});
-   }
