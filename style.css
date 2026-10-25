@@ -2264,5 +2264,13 @@ body.cookie-open .a11y-bar { bottom: 132px; }
   .hero-brand-logo { height: 64px; }
 }
 [hidden] {
+   /* Modo reduzir animações */
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
     display: none !important;
 }
