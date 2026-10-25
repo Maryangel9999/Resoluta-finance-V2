@@ -430,18 +430,24 @@ if (sendEmailBtn) {
 
     try {
 
-      const { error } =
-        await window.supabaseClient.auth.resetPasswordForEmail(
-          email,
-          {
-            redirectTo:
-              'https://maryangel9999.github.io/Resoluta-finance-V2/reset-password.html'
-          }
-        );
+      const response = await fetch(
+  'https://resolutaagi.app.n8n.cloud/webhook/resoluta-recuperar-senha',
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email: email
+    })
+  }
+);
 
-      if (error) throw error;
+if (!response.ok) {
+  throw new Error('Falha ao enviar código.');
+}
 
-      alert('Link de recuperação enviado com sucesso! Verifique seu e-mail.');
+     alert('Código de recuperação enviado com sucesso! Verifique seu e-mail.');
 
       emailInput.value = '';
 
