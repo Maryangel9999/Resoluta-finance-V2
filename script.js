@@ -487,10 +487,12 @@ if (validateOtpBtn) {
       .select('*')
       .eq('email', email)
       .eq('otp_code', otpCode)
-      .eq('used', false)
-      .single();
-
-    if (error || !data) {
+     .eq('used', false)
+.order('created_at', { ascending: false })
+.limit(1);
+     console.log('DATA:', data);
+console.log('ERROR:', error);
+if (error || !data.length) {
       alert('❌ Código inválido');
       return;
     }
