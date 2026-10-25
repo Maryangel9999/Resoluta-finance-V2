@@ -470,3 +470,189 @@ if (!response.ok) {
 
 }
 
+  /**
+ * Versão Final Integrada - Calculadora de Markup (Resoluta Finance)
+ * - Utiliza os elementos visuais reais já existentes: calcError, calcErrorMsg, calcResultado.
+ * - IDs dos campos validados: custoDireto, despesasVar, despesasFixas, margemLucro, quantidade, precoPraticado.
+ * - Preserva integralmente calcularMarkup(), F.markup(), a lógica matemática e os eventos atuais.
+ */
+function inicializarCalculadoraMarkupEstavel() {
+  const custoDiretoEl = document.getElementById('custoDireto');
+  const despesasVarEl = document.getElementById('despesasVar');
+  const despesasFixasEl = document.getElementById('despesasFixas');
+  const margemLucroEl = document.getElementById('margemLucro');
+  const quantidadeEl = document.getElementById('quantidade');
+  const precoPraticadoEl = document.getElementById('precoPraticado');
+  
+  const btnCalcular = document.getElementById('calcularBtn') || document.getElementById('btnCalcular') || document.querySelector('button[type="submit"]');
+  
+  // Elementos reais existentes no projeto
+  const calcError = document.getElementById('calcError');
+  const calcErrorMsg = document.getElementById('calcErrorMsg');
+  const calcResultado = document.getElementById('calcResultado');
+
+  const campos = [custoDiretoEl, despesasVarEl, despesasFixasEl, margemLucroEl, quantidadeEl, precoPraticadoEl].filter(Boolean);
+
+  if (campos.length === 0) return;
+
+  let usuarioInteragiu = false;
+
+  function converterParaFloat(valorStr) {
+    if (!valorStr) return NaN;
+    const limpo = valorStr.toString().replace(/[R$\s%]/g, '').replace(/\./g, '').replace(',', '.');
+    return parseFloat(limpo);
+  }
+
+  function aplicarEstiloCampo(elemento, ehValido, temConteudo, mostrarErro) {
+    if (!elemento) return;
+    elemento.style.transition = 'border-color 0.2s ease, box-shadow 0.2s ease';
+    
+    if (!usuarioInteragiu || !temConteudo) {
+      elemento.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+      elemento.style.boxShadow = 'none';
+    } else if (ehValido) {
+      elemento.style.borderColor = '#22c55e';
+      elemento.style.boxShadow = '0 0 0 2px rgba(34, 197, 94, 0.15)';
+    } else if (mostrarErro) {
+      elemento.style.borderColor = '#ef4444';
+      elemento.style.boxShadow = '0 0 0 2px rgba(239, 68, 68, 0.15)';
+    }
+  }
+
+  function executarValidacao(forcarExibicao = false) {
+    if (forcarExibicao) {
+      usuarioInteragiu = true;
+    }
+
+    const valCustoStr = custoDiretoEl ? custoDiretoEl.value.trim() : '';
+    const valDvStr = despesasVarEl ? despesasVarEl.value.trim() : '';
+    const valDfStr = despesasFixasEl ? despesasFixasEl.value.trim() : '';
+    const valMlStr = margemLucroEl ? margemLucroEl.value.trim() : '';
+    const valQtdStr = quantidadeEl ? quantidadeEl.value.trim() : '';
+    const valPrecoStr = precoPraticadoEl ? precoPraticadoEl.value.trim() : '';
+
+    const custoDireto = converterParaFloat(valCustoStr);
+    const despesasVar = valDvStr ? converterParaFloat(valDvStr) : 0;
+    const despesasFixas = valDfStr ? converterParaFloat(valDfStr) : 0;
+    const margemLucro = valMlStr ? converterParaFloat(valMlStr) : 0;
+    const quantidade = valQtdStr ? converterParaFloat(valQtdStr) : NaN;
+
+    let erros = [];
+    let primeiroErroEl = null;
+
+    // 1. Custo Direto (Obrigatório e > 0)
+    const custoValido = !isNaN(custoDireto) && custoDireto > 0;
+    aplicarEstiloCampo(custoDiretoEl, custoValido, valCustoStr.length > 0, usuarioInteragiu);
+    if (!custoValido && usuarioInteragiu) {
+      erros.push('Custo Direto deve ser maior que R$ 0,00.');
+      if (!primeiroErroEl) primeiroErroEl = custoDiretoEl;
+    }
+
+    // 2. Despesas Variáveis
+    const dvValida = isNaN(despesasVar) || despesasVar >= 0;
+    aplicarEstiloCampo(despesasVarEl, dvValida, valDvStr.length > 0, usuarioInteragiu);
+    if (!dvValida && usuarioInteragiu) {
+      erros.push('Despesas Variáveis inválidas.');
+      if (!primeiroErroEl) primeiroErroEl = despesasVarEl;
+    }
+
+    // 3. Despesas Fixas
+    const dfValida = isNaN(despesasFixas) || despesasFixas >= 0;
+    aplicarEstiloCampo(despesasFixasEl, dfValida, valDfStr.length > 0, usuarioInteragiu);
+    if (!dfValida && usuarioInteragiu) {
+      erros.push('Despesas Fixas inválidas.');
+      if (!primeiroErroEl) primeiroErroEl = despesasFixasEl;
+    }
+
+    // 4. Margem de Lucro
+    const mlValida = isNaN(margemLucro) || margemLucro >= 0;
+    aplicarEstiloCampo(margemLucroEl, mlValida, valMlStr.length > 0, usuarioInteragiu);
+    if (!mlValida && usuarioInteragiu) {
+      erros.push('Margem de Lucro inválida.');
+      if (!primeiroErroEl) primeiroErroEl = margemLucroEl;
+    }
+
+    // 5. Quantidade
+    const qtdValida = valQtdStr === '' || (!isNaN(quantidade) && quantidade > 0);
+    aplicarEstiloCampo(quantidadeEl, qtdValida, valQtdStr.length > 0, usuarioInteragiu);
+    if (!qtdValida && usuarioInteragiu) {
+      erros.push('Quantidade deve ser um número maior que zero.');
+      if (!primeiroErroEl) primeiroErroEl = quantidadeEl;
+    }
+
+    // 6. Preço Praticado
+    const precoValido = valPrecoStr === '' || (!isNaN(converterParaFloat(valPrecoStr)) && converterParaFloat(valPrecoStr) >= 0);
+    aplicarEstiloCampo(precoPraticadoEl, precoValido, valPrecoStr.length > 0, usuarioInteragiu);
+
+    // Soma das porcentagens
+    const somaPorcentagens = (isNaN(despesasVar) ? 0 : despesasVar) + 
+                             (isNaN(despesasFixas) ? 0 : despesasFixas) + 
+                             (isNaN(margemLucro) ? 0 : margemLucro);
+    
+    if (somaPorcentagens >= 100 && usuarioInteragiu) {
+      erros.push('A soma das despesas e da margem não pode atingir ou ultrapassar 100%.');
+    }
+
+    const temErros = erros.length > 0;
+
+    if (!usuarioInteragiu) {
+      return { valido: true, primeiroErroEl };
+    }
+
+    if (!temErros) {
+      campos.forEach(c => {
+        if (c && c.value.trim().length > 0) {
+          c.style.borderColor = '#22c55e';
+          c.style.boxShadow = '0 0 0 2px rgba(34, 197, 94, 0.15)';
+        }
+      });
+
+      // Oculta o container de erro nativo caso estivesse visível
+      if (calcError) calcError.style.display = 'none';
+    } else {
+      // Exibe os erros utilizando os elementos reais existentes (calcError e calcErrorMsg)
+      if (calcErrorMsg) {
+        calcErrorMsg.innerHTML = erros.join('<br>');
+      }
+      if (calcError) {
+        calcError.style.display = 'block';
+      }
+      // Opcional: oculta resultados antigos se houver erro
+      if (calcResultado) {
+        calcResultado.style.display = 'none';
+      }
+    }
+
+    return { valido: !temErros, primeiroErroEl };
+  }
+
+  campos.forEach(campo => {
+    campo.addEventListener('input', () => executarValidacao(true));
+    campo.addEventListener('change', () => executarValidacao(true));
+  });
+
+  if (btnCalcular) {
+    btnCalcular.addEventListener('click', function(e) {
+      const resultadoValidacao = executarValidacao(true);
+      if (!resultadoValidacao.valido) {
+        e.preventDefault();
+        
+        if (resultadoValidacao.primeiroErroEl) {
+          resultadoValidacao.primeiroErroEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          resultadoValidacao.primeiroErroEl.focus();
+        }
+      }
+    });
+  }
+
+  executarValidacao(false);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', inicializarCalculadoraMarkupEstavel);
+function inicializarCalculadoraMarkupEstavel() {
+   // código completo
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', inicializarCalculadoraMarkupEstavel);
