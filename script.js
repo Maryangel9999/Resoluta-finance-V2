@@ -6,7 +6,7 @@
 (function () {
   'use strict';
   var F = window.Finance;
-
+let otpValidated = false;
   /* ---------- Dados de apresentação ---------- */
   var TOOLS = [
     { icon: 'fa-tags', title: 'Calculadora de Markup', desc: 'Defina o preço de venda ideal a partir de custos, despesas e margem desejada.', tag: 'Precificação' },
@@ -469,3 +469,37 @@ if (!response.ok) {
   });
 
 }
+const validateOtpBtn = document.getElementById('validateOtpBtn');
+
+if (validateOtpBtn) {
+  validateOtpBtn.addEventListener('click', async () => {
+  const email = document.getElementById('recoveryEmail').value.trim();
+  const otpCode = document.getElementById('otpCode').value.trim();
+
+  if (!email || !otpCode) {
+    alert('❌ Por favor, preencha o e-mail e o código OTP.');
+    return;
+  }
+
+  try {
+    const { data, error } = await window.supabaseClient
+      .from('password_reset_codes')
+      .select('*')
+      .eq('email', email)
+      .eq('otp_code', otpCode)
+      .eq('used', false)
+      .single();
+
+    if (error || !data) {
+      alert('❌ Código inválido');
+      return;
+    }
+
+    otpValidated = true;
+    alert('✅ Código validado com sucesso');
+  } catch (err) {
+    console.error('Erro ao validar o código:', err);
+    alert('❌ Código inválido');
+  }
+});
+   }
