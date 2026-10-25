@@ -399,7 +399,11 @@
           <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Criar minha conta</button>
         </form>
 
-        <!-- RECUPERAR SENHA -->
+       Pergunta de segurança
+
+──────── OU ────────
+
+📧 Recuperação por Código OTP
         <form class="form-stack" id="forgotForm" novalidate hidden>
           <p style="font-size:.86rem;color:var(--text-soft);">Informe seu e-mail e sua pergunta de segurança para redefinir a senha.</p>
           <div class="field">
@@ -417,22 +421,23 @@
           </div>
           <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-key" aria-hidden="true"></i> Redefinir senha</button>
           <button type="button" class="link-btn" data-auth-tab="login" style="justify-self:center;">Voltar para o login</button>
-          <p>Enviar link de recuperação por e-mail</p>
+          <p>📧 Recuperação por Código OTP</p>
 <input type="email" id="recoveryEmail" placeholder="Digite seu e-mail" required>
-<button type="button" id="sendEmailRecoveryBtn">📧 Enviar código de recuperação</button>
-          <div class="resoluta-otp-container" style="border: 1px solid var(--resoluta-primary, #6366f1); background: var(--resoluta-surface, #1e1b4b); padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);">
+<button type="button" id="sendEmailRecoveryBtn">📧 Validação por Código OTP</button>
+          <div class="resoluta-otp-container" style="border: 1px solid var(--resoluta-primary, #D4AF37); background: var(--resoluta-surface, #2B0D14); padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);">
   <div class="resoluta-otp-header" style="margin-bottom: 16px;">
     <h3 style="color: var(--resoluta-text, #f8fafc); font-size: 1.25rem; font-weight: 700; margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px;">
-      🔐 Verificação por Código OTP
+     🔐 Validação por Código OTP
+ 
     </h3>
-    <p style="color: var(--resoluta-text-muted, #cbd5e1); font-size: 0.875rem; margin: 0; line-height: 1.5;">
-      Digite o código de 5 dígitos enviado para seu e-mail.
+    <p style="color: var(--resoluta-text-muted, #E6D8A8); font-size: 0.875rem; margin: 0; line-height: 1.5;">
+      Digite o código recebido no e-mail cadastrado para continuar.
     </p>
   </div>
   
   <div class="resoluta-otp-form-group" style="display: flex; flex-direction: column; gap: 12px;">
-    <input type="text" id="otpCode" maxlength="5" placeholder="Código de 5 dígitos" style="width: 100%; padding: 12px 16px; font-size: 1.125rem; text-align: center; letter-spacing: 0.25em; border: 1px solid var(--resoluta-border, #4338ca); background: var(--resoluta-bg, #0f172a); color: var(--resoluta-text, #f8fafc); border-radius: 8px; outline: none; transition: border-color 0.2s;">
-    <button id="validateOtpBtn" type="button" style="width: 100%; padding: 12px 16px; font-size: 1rem; font-weight: 600; background: var(--resoluta-primary, #6366f1); color: #ffffff; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s;">
+    <input type="text" id="otpCode" maxlength="5" placeholder="_ _ _ _ _" style="width: 100%; padding: 12px 16px; font-size: 1.125rem; text-align: center; letter-spacing: 0.25em; border: 1px solid var(--resoluta-border, #4338ca); background: var(--resoluta-bg, #0f172a); color: var(--resoluta-text, #f8fafc); border-radius: 8px; outline: none; transition: border-color 0.2s;">
+    <button id="validateOtpBtn" type="button" style="width: 100%; padding: 12px 16px; font-size: 1rem; font-weight: 600; background: var(--resoluta-primary, #D4AF37); color: #2B0D14; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s;">
       Validar Código
     </button>
   </div>
