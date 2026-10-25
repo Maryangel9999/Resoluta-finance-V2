@@ -492,6 +492,8 @@ if (validateOtpBtn) {
 .limit(1);
      console.log('DATA:', data);
 console.log('ERROR:', error);
+     console.log('EMAIL DIGITADO:', email);
+console.log('OTP DIGITADO:', otpCode);
 if (error || !data.length) {
       alert('❌ Código inválido');
       return;
