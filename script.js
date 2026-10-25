@@ -649,10 +649,10 @@ function inicializarCalculadoraMarkupEstavel() {
 }
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', inicializarCalculadoraMarkupEstavel);
-function inicializarCalculadoraMarkupEstavel() {
-   // código completo
+    document.addEventListener(
+        'DOMContentLoaded',
+        inicializarCalculadoraMarkupEstavel
+    );
+} else {
+    inicializarCalculadoraMarkupEstavel();
 }
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', inicializarCalculadoraMarkupEstavel);
