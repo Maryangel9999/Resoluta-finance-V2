@@ -482,19 +482,16 @@ if (validateOtpBtn) {
   }
 
   try {
-    const { data, error } = await window.supabaseClient
-      .from('password_reset_codes')
-      .select('*')
-      .eq('email', email)
-      .eq('otp_code', otpCode)
-     .eq('used', false)
-.order('created_at', { ascending: false })
-.limit(1);
+      const { data, error } = await window.supabaseClient
+  .from('password_reset_codes')
+  .select('*');
+
      console.log('DATA:', data);
 console.log('ERROR:', error);
      console.log('EMAIL DIGITADO:', email);
 console.log('OTP DIGITADO:', otpCode);
-if (error || !data.length) {
+return;
+}
       alert('❌ Código inválido');
       return;
     }
