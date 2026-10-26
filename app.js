@@ -1089,9 +1089,11 @@
       if (e.target.closest && e.target.closest('[data-theme-btn]')) setTimeout(function () { VIEWS[current].render(); }, 60);
     });
 
-    maybeOnboard();
-    go((location.hash || '#dashboard').slice(1), true);
-  }
+   maybeOnboard();
 
-  document.addEventListener('DOMContentLoaded', init);
+go((location.hash || '#dashboard').slice(1), true);
+
+document.addEventListener('DOMContentLoaded', init);
+
 })();
+
