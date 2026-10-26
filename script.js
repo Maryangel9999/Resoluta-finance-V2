@@ -631,20 +631,6 @@ function inicializarCalculadoraMarkupEstavel() {
     campo.addEventListener('change', () => executarValidacao(true));
   });
 
-  if (btnCalcular) {
-    btnCalcular.addEventListener('click', function(e) {
-      const resultadoValidacao = executarValidacao(true);
-      if (!resultadoValidacao.valido) {
-        e.preventDefault();
-        
-        if (resultadoValidacao.primeiroErroEl) {
-          resultadoValidacao.primeiroErroEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          resultadoValidacao.primeiroErroEl.focus();
-        }
-      }
-    });
-  }
-
   executarValidacao(false);
 }
 
