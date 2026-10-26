@@ -643,9 +643,31 @@
      PROGRESSO GERAL
      ====================================================================== */
   function updateProgressUI() {
+     
     var total = totalLessons();
     var done = doneLessons();
-    var pct = total ? Math.round((done / total) * 100) : 0;
+
+     var pct = total ? Math.round((done / total) * 100) : 0;
+     
+     var badge = document.getElementById('gamificationBadge');
+    
+     if (badge) {
+
+  if (pct >= 100) {
+    badge.innerHTML = '🥇 Mestre da Gestão';
+  }
+  else if (pct >= 60) {
+    badge.innerHTML = '🥈 Planejador Financeiro';
+  }
+  else if (pct >= 20) {
+    badge.innerHTML = '🥉 Explorador Financeiro';
+  }
+  else {
+    badge.innerHTML = '🚀 Iniciante';
+  }
+
+    }
+     
     var ring = document.getElementById('progressRing');
     var pctEl = document.getElementById('progressPct');
     var note = document.getElementById('progressNote');
