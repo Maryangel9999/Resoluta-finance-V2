@@ -251,8 +251,18 @@
       if (!r.ok) { toast(r.error, 'error'); return; }
       S.add('products', { name: $('#pfName').value || 'Produto sem nome', cost: input.cost, varPct: input.varPct, fixPct: input.fixPct, marginPct: input.marginPct, qty: input.qty, practiced: input.practiced });
       toast('Precificação salva!');
-      renderPrecificacao();
     });
+     S.add('transactions', {
+    id: 'tx-' + Date.now(),
+    type: 'in',
+    description: $('#pfName').value || 'Precificação',
+    category: 'Vendas',
+    amount: r.revenue,
+    date: new Date().toISOString()
+     });
+     toast('Precificação salva!');
+     renderPrecificacao();
+     });
     renderPfList();
   }
   function renderPfList() {
