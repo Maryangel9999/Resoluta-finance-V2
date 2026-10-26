@@ -467,6 +467,9 @@ if (!response.ok) {
     }
 
   });
+
+ }
+
 const otpCodeInput = document.getElementById('otpCode');
 const recoveryEmailInput = document.getElementById('recoveryEmail');
 const validateOtpBtn = document.getElementById('validateOtpBtn');
