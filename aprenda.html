@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css?v=20261024a">
   <link rel="stylesheet" href="app.css?v=20261024a">
+  <link rel="stylesheet" href="macroprocessos.css?v=4">
 </head>
 <body class="learn-body">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
@@ -101,14 +102,20 @@
     <section class="section" id="trilha">
       <div class="container">
         <!-- RESOLUTA: animação dos macroprocessos na área educativa. -->
-        <figure id="resoluta-macroprocessos" style="margin:0 0 40px;">
+        <figure id="resoluta-macroprocessos" style="position:relative;max-width:960px;margin:0 auto 40px;">
           <video id="resoluta-macroprocessos-video"
-                 aria-label="Resoluta AGI: robôs levam papéis entre planejamento, organização, comunicação e controle."
+                 aria-label="Resoluta AGI: robôs levam papéis entre planejamento, organização, comunicação e controle. Cada entrega vale 10 pontos."
                  width="960" height="540" autoplay muted loop playsinline preload="metadata"
                  poster="assets/resoluta-macroprocessos.png"
                  style="display:block;width:100%;max-width:960px;height:auto;margin:0 auto;border-radius:var(--radius-lg);">
             <source src="assets/resoluta-macroprocessos.mp4" type="video/mp4">
           </video>
+          <div class="macroprocessos-pontuacao" aria-hidden="true">
+            <span class="macroprocessos-pontos" data-entrega="planejamento" data-entrega-x="140">+10 pontos</span>
+            <span class="macroprocessos-pontos" data-entrega="organizacao" data-entrega-x="366">+10 pontos</span>
+            <span class="macroprocessos-pontos" data-entrega="comunicacao" data-entrega-x="593">+10 pontos</span>
+            <span class="macroprocessos-pontos" data-entrega="controle" data-entrega-x="820">+10 pontos</span>
+          </div>
         </figure>
 
         <div class="section-head">
@@ -279,7 +286,7 @@
   <script src="a11y.js?v=20261024a"></script>
   <script src="script.js"></script>
   <script src="aprenda.js"></script>
-  <script src="macroprocessos.js" defer></script>
+  <script src="macroprocessos.js?v=3" defer></script>
   <script src="pwa.js"></script>
 </body>
 </html>
