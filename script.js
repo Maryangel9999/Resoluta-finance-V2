@@ -405,7 +405,7 @@ if (forgotForm) forgotForm.addEventListener('submit', async function (e) {
       }
     }
   });
-})();
+
 const sendEmailBtn = document.getElementById('sendEmailRecoveryBtn');
 
 if (sendEmailBtn) {
@@ -758,3 +758,5 @@ if (document.readyState === 'loading') {
 } else {
     inicializarCalculadoraMarkupEstavel();
 }
+
+ })();
