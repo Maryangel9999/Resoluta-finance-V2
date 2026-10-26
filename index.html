@@ -467,26 +467,14 @@ Faça login ou crie sua conta para acessar todas as ferramentas financeiras da R
           <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Criar minha conta</button>
         </form>
 
-       Pergunta de segurança
-
-──────── OU ────────
-
 📧 Recuperação por Código OTP
         <form class="form-stack" id="forgotForm" novalidate hidden>
-          <p style="font-size:.86rem;color:var(--text-soft);">Informe seu e-mail e sua pergunta de segurança para redefinir a senha.</p>
+          <p style="font-size:.86rem;color:var(--text-soft);">Informe seu e-mail para receber e validar um código OTP para redefinir sua senha.</p>
           <div class="field">
             <label for="forgotEmail">E-mail cadastrado</label>
             <input type="email" id="forgotEmail" autocomplete="email" placeholder="seu@email.com" required>
           </div>
-          <div class="field">
-            <label for="forgotAnswer">Resposta de segurança <span class="hint">(Qual é o nome do seu primeiro negócio ou projeto?)</span></label>
-            <input type="text" id="forgotAnswer" placeholder="Sua resposta" required>
-          </div>
-          <div class="field">
-            <label for="forgotNew">Nova senha</label>
-            <input type="password" id="forgotNew" autocomplete="new-password" placeholder="Nova senha" required>
-            <div class="pw-meter" id="pwMeter2" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          </div>
+        
           <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-key" aria-hidden="true"></i> Redefinir senha</button>
           <button type="button" class="link-btn" data-auth-tab="login" style="justify-self:center;">Voltar para o login</button>
           <p>📧 Recuperação por Código OTP</p>
