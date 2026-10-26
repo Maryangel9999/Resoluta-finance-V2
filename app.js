@@ -245,6 +245,7 @@
       $('#pfCost').value = 4.5; $('#pfVar').value = 8; $('#pfFix').value = 12; $('#pfMargin').value = 25; $('#pfQty').value = 100; $('#pfPracticed').value = 12;
       calc();
     });
+     
     $('#pfSave').addEventListener('click', function () {
       var input = { cost: F.num($('#pfCost').value), varPct: F.num($('#pfVar').value), fixPct: F.num($('#pfFix').value), marginPct: F.num($('#pfMargin').value), qty: F.num($('#pfQty').value, 1), practiced: F.num($('#pfPracticed').value) };
       var r = F.markup(input);
@@ -271,7 +272,9 @@
      toast('Precificação salva!');
      renderPrecificacao();
      });
-    
+
+     }
+     
   function renderPfList() {
     var d = data();
     var host = $('#pfList');
@@ -1089,11 +1092,11 @@
       if (e.target.closest && e.target.closest('[data-theme-btn]')) setTimeout(function () { VIEWS[current].render(); }, 60);
     });
 
-   maybeOnboard();
+     maybeOnboard();
 
 go((location.hash || '#dashboard').slice(1), true);
 
+} // fecha a função init
+
 document.addEventListener('DOMContentLoaded', init);
-
 })();
-
