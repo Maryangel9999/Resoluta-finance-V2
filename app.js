@@ -249,9 +249,16 @@
       var input = { cost: F.num($('#pfCost').value), varPct: F.num($('#pfVar').value), fixPct: F.num($('#pfFix').value), marginPct: F.num($('#pfMargin').value), qty: F.num($('#pfQty').value, 1), practiced: F.num($('#pfPracticed').value) };
       var r = F.markup(input);
       if (!r.ok) { toast(r.error, 'error'); return; }
-      S.add('products', { name: $('#pfName').value || 'Produto sem nome', cost: input.cost, varPct: input.varPct, fixPct: input.fixPct, marginPct: input.marginPct, qty: input.qty, practiced: input.practiced });
-      toast('Precificação salva!');
-    });
+      S.add('products', { 
+         name: $('#pfName').value || 'Produto sem nome',
+         cost: input.cost,
+         varPct: input.varPct,
+         fixPct:input.fixPct,
+         marginPct: input.marginPct,
+         qty: input.qty,
+         practiced: input.practiced
+      });
+       
      S.add('transactions', {
     id: 'tx-' + Date.now(),
     type: 'in',
@@ -260,11 +267,11 @@
     amount: r.revenue,
     date: new Date().toISOString()
      });
+       
      toast('Precificação salva!');
      renderPrecificacao();
      });
-    renderPfList();
-  }
+    
   function renderPfList() {
     var d = data();
     var host = $('#pfList');
