@@ -467,7 +467,53 @@ if (!response.ok) {
     }
 
   });
+const otpCodeInput = document.getElementById('otpCode');
+const recoveryEmailInput = document.getElementById('recoveryEmail');
+const validateOtpBtn = document.getElementById('validateOtpBtn');
 
+if (validateOtpBtn) {
+    validateOtpBtn.addEventListener('click', async () => {
+        const email = recoveryEmailInput ? recoveryEmailInput.value.trim() : '';
+        const otpCode = otpCodeInput ? otpCodeInput.value.trim() : '';
+
+        if (!email || !otpCode) {
+            alert('Por favor, informe o e-mail e o código OTP.');
+            return;
+        }
+
+        try {
+            
+               if (!window.supabaseClient) {
+    alert('Cliente Supabase não inicializado.');
+    return;
+}
+           
+            const { data, error } = await window.supabaseClient      
+                .from('password_reset_codes')
+                .select('*')
+                .eq('email', email)
+                .eq('otp_code', otpCode)
+                .eq('used', false)
+                .gt('expires_at', new Date().toISOString())
+                .maybeSingle();
+
+            if (error || !data) {
+                alert('Código inválido, expirado ou já utilizado.');
+                return;
+            }
+
+            alert('Código validado com sucesso!');
+            
+            // Exemplo para exibir o container/campo de nova senha:
+            // document.getElementById('newPasswordSection').style.display = 'block';
+            // document.getElementById('otpSection').style.display = 'none';
+
+        } catch (err) {
+            console.error('Erro ao validar o código OTP:', err);
+            alert('Ocorreu um erro ao processar sua solicitação.');
+        }
+    });
+}
 }
 
   /**
