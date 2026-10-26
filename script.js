@@ -508,6 +508,10 @@ console.log('ERROR:', error);
             }
 
             alert('Código validado com sucesso!');
+
+           window.verifiedResetEmail = email;
+window.verifiedOtpCode = otpCode;
+
             
             // Exemplo para exibir o container/campo de nova senha:
             // document.getElementById('newPasswordSection').style.display = 'block';
@@ -519,6 +523,64 @@ console.log('ERROR:', error);
         }
     });
 }
+   const forgotFormReset = document.getElementById('forgotForm');
+
+if (forgotFormReset) {
+    forgotFormReset.addEventListener('submit', async function (e) {
+
+        if (!window.verifiedResetEmail || !window.verifiedOtpCode) {
+            return;
+        }
+
+        e.preventDefault();
+
+        const newPassword =
+            document.getElementById('forgotNew')?.value?.trim();
+
+        if (!newPassword) {
+            alert('Informe a nova senha.');
+            return;
+        }
+
+        try {
+
+            const response = await fetch(
+                'https://rflziflcxmfvetobdqyk.supabase.co/functions/v1/reset-password-with-otp',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: window.verifiedResetEmail,
+                        otp_code: window.verifiedOtpCode,
+                        new_password: newPassword
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Erro ao redefinir senha');
+            }
+
+            alert('Senha redefinida com sucesso!');
+
+            window.verifiedResetEmail = null;
+            window.verifiedOtpCode = null;
+
+            switchTab('login');
+
+        } catch (err) {
+
+            console.error(err);
+
+            alert(
+                err.message || 'Erro ao redefinir senha.'
+            );
+        }
+    });
 }
 
   /**
