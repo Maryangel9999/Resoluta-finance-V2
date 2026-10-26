@@ -497,6 +497,11 @@ if (validateOtpBtn) {
                 .gt('expires_at', new Date().toISOString())
                 .maybeSingle();
 
+           console.log('EMAIL:', email);
+console.log('OTP:', otpCode);
+console.log('DATA:', data);
+console.log('ERROR:', error);
+
             if (error || !data) {
                 alert('Código inválido, expirado ou já utilizado.');
                 return;
