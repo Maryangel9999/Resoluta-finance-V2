@@ -186,7 +186,7 @@ button { font-family: inherit; }
 .header.scrolled { box-shadow: 0 8px 30px rgba(0,0,0,.28); }
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; height: var(--header-h); }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.brand-logo { height: 80px; width: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
+.brand-logo { height: 70px; width: auto; filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
 .brand-mark {
   width: 42px; height: 42px; border-radius: 11px; flex: none;
   background: linear-gradient(150deg, var(--gold), var(--gold-strong));
